@@ -1,0 +1,79 @@
+:root {
+  --bg: #f4f2ec;
+  --panel: #ffffff;
+  --ink: #1b1a17;
+  --muted: #6d685e;
+  --line: #e3dfd5;
+  --accent: #b45309;
+  --accent-soft: #fdf1e2;
+  --good: #15803d;
+  --radius: 10px;
+  --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #131210;
+    --panel: #1c1b18;
+    --ink: #ece8df;
+    --muted: #a29c90;
+    --line: #2f2d28;
+    --accent: #f59e0b;
+    --accent-soft: #2a2010;
+    --good: #4ade80;
+    color-scheme: dark;
+  }
+}
+
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 15px/1.45 system-ui, -apple-system, "Segoe UI", sans-serif; }
+
+.bar { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; max-width: 760px; margin: 0 auto; padding: 18px 16px 6px; }
+.brand { font-weight: 700; font-size: 18px; }
+.brand small { font-weight: 500; color: var(--muted); font-size: 14px; margin-left: 6px; }
+.clock { font-family: var(--mono); font-size: 13px; color: var(--muted); }
+
+main { max-width: 760px; margin: 0 auto; padding: 0 16px 40px; }
+
+.tabs { display: flex; gap: 6px; align-items: center; position: sticky; top: 0; z-index: 2; background: var(--bg); padding: 10px 0; }
+.tabs button { font: inherit; font-weight: 600; border: 1px solid var(--line); background: var(--panel); color: var(--ink); border-radius: 999px; padding: 6px 16px; cursor: pointer; }
+.tabs button.on { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+.level { margin-left: auto; display: flex; align-items: center; gap: 6px; font-weight: 600; color: var(--muted); }
+.level input { width: 64px; font: inherit; font-weight: 600; color: var(--ink); background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 5px 8px; }
+
+.resets { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 8px; margin: 4px 0 14px; }
+.reset { background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); padding: 8px 10px; display: flex; flex-direction: column; }
+.reset span { font-size: 12px; color: var(--muted); }
+.reset b { font-family: var(--mono); font-size: 17px; }
+.reset small { font-size: 12px; color: var(--muted); }
+.reset.season { background: var(--accent-soft); border-color: transparent; }
+
+.card { background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); padding: 12px 14px; margin-bottom: 12px; }
+.card.current { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent); }
+.card header { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; }
+.card h2 { font-size: 16px; margin: 0; }
+.count { font-family: var(--mono); font-size: 13px; color: var(--muted); }
+.count.all { color: var(--good); font-weight: 700; }
+.hint { color: var(--muted); font-size: 13px; margin: 4px 0 6px; }
+.later { color: var(--muted); font-size: 12px; margin: 6px 0 0; border-top: 1px dashed var(--line); padding-top: 6px; }
+
+.rows { list-style: none; margin: 6px 0 0; padding: 0; }
+ol.rows { counter-reset: step; }
+.row label { display: flex; gap: 10px; align-items: flex-start; padding: 7px 0; border-top: 1px solid var(--line); cursor: pointer; }
+.rows > .row:first-child label { border-top: 0; }
+ol.rows > .row { counter-increment: step; }
+ol.rows > .row .label::before { content: counter(step) ". "; color: var(--muted); font-variant-numeric: tabular-nums; }
+.row input { width: 18px; height: 18px; margin: 2px 0 0; accent-color: var(--accent); flex: none; }
+.what { display: flex; flex-direction: column; min-width: 0; }
+.label { font-weight: 550; }
+.note { color: var(--muted); font-size: 13px; }
+.row.done .label { text-decoration: line-through; color: var(--muted); font-weight: 400; }
+.row.done .note { display: none; }
+.tag { display: inline-block; font-size: 11px; font-weight: 600; color: var(--muted); border: 1px solid var(--line); border-radius: 999px; padding: 0 7px; margin-left: 6px; vertical-align: 1px; }
+.tag.now { color: var(--accent); border-color: var(--accent); }
+
+.more { margin-top: 8px; }
+.more summary { cursor: pointer; color: var(--muted); font-size: 13px; font-weight: 600; }
+
+.foot { display: flex; flex-wrap: wrap; gap: 6px 14px; align-items: center; color: var(--muted); font-size: 12px; margin-top: 20px; }
+.linkish { font: inherit; background: none; border: 0; padding: 0; color: var(--accent); cursor: pointer; text-decoration: underline; }
