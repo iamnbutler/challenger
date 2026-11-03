@@ -2,7 +2,7 @@
 // Plan (one-off progression steps). Content lives in data.js; this file only
 // renders it. Check-offs are stored locally and synced through /api/sync.
 
-import { SEASON, TODAY, PLAN } from "./data.js";
+import { GEAR, PLAN, SEASON, TODAY } from "./data.js";
 import { merge } from "./merge.js";
 import { countdown, nextReset, periodKey } from "./time.js";
 
@@ -191,6 +191,10 @@ function today(now) {
 
 // ---------- Plan ----------
 
+// What kind of goal a plan step is. Shown as a chip so a band reads as
+// "level up, fill symbols, test, clear" at a glance.
+const KIND = { level: "Level", force: "Symbols", test: "Test", clear: "Clear", gear: "Gear", build: "Build", setup: "Setup" };
+
 function stepRow(step) {
   const item = { ...step, cadence: "once" };
   const done = isDone(item);
@@ -198,7 +202,9 @@ function stepRow(step) {
     h("label", {},
       h("input", { type: "checkbox", checked: done, onchange: (e) => setDone(item, e.target.checked) }),
       h("span", { class: "what" },
-        h("span", { class: "label" }, step.label),
+        h("span", { class: "label" }, step.kind && h("span", { class: `kind kind-${step.kind}` }, KIND[step.kind]), step.label),
+        step.unlocks && h("span", { class: "unlocks" }, `Full damage: ${step.unlocks}`),
+        step.when && h("span", { class: "unlocks" }, `Switch when: ${step.when}`),
         step.note && h("span", { class: "note" }, step.note))));
 }
 
@@ -211,14 +217,23 @@ function planSection(section) {
     h(section.ordered ? "ol" : "ul", { class: "rows" }, section.steps.map(stepRow)),
     section.later && h("details", { class: "more" }, h("summary", {}, section.later.title), h("ul", { class: "rows" }, section.later.steps.map(stepRow))),
   ];
-  return h("section", { class: current ? "card current" : "card" },
-    h("header", {}, h("h2", {}, section.title, current && h("span", { class: "tag now" }, "you are here")),
-      h("span", { class: done === section.steps.length ? "count all" : "count" }, `${done}/${section.steps.length}`)),
-    body);
+  const header = h("header", {}, h("h2", {}, section.title, current && h("span", { class: "tag now" }, "you are here")),
+    h("span", { class: done === section.steps.length ? "count all" : "count" }, `${done}/${section.steps.length}`));
+  // Keep the page on what matters now: bands you're not in, and finished
+  // sections, fold to their header.
+  const elsewhere = section.levels && lv != null && !current;
+  if (elsewhere || done === section.steps.length) {
+    return h("section", { class: "card" }, h("details", { class: "fold" }, h("summary", {}, header), body));
+  }
+  return h("section", { class: current ? "card current" : "card" }, header, body);
 }
 
 function plan() {
   return PLAN.map(planSection);
+}
+
+function gear() {
+  return GEAR.map(planSection);
 }
 
 // ---------- page ----------
@@ -236,7 +251,7 @@ function levelInput() {
 
 function tabs() {
   return h("nav", { class: "tabs" },
-    [["today", "Today"], ["plan", "Plan"]].map(([id, label]) =>
+    [["today", "Today"], ["plan", "Plan"], ["gear", "Gear"]].map(([id, label]) =>
       h("button", { class: tab === id ? "on" : "", "aria-pressed": tab === id, onclick: () => { tab = id; save(TAB_KEY, tab); render(); } }, label)),
     levelInput());
 }
@@ -259,7 +274,8 @@ function renderSync() {
 
 function render() {
   const now = Date.now();
-  app.replaceChildren(tabs(), ...(tab === "plan" ? plan() : today(now)), syncFooter());
+  const page = tab === "plan" ? plan() : tab === "gear" ? gear() : today(now);
+  app.replaceChildren(tabs(), ...page, syncFooter());
 }
 
 function tick() {
