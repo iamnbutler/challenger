@@ -77,3 +77,26 @@ ol.rows > .row .label::before { content: counter(step) ". "; color: var(--muted)
 
 .foot { display: flex; flex-wrap: wrap; gap: 6px 14px; align-items: center; color: var(--muted); font-size: 12px; margin-top: 20px; }
 .linkish { font: inherit; background: none; border: 0; padding: 0; color: var(--accent); cursor: pointer; text-decoration: underline; }
+
+.kind { display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: 0.02em; border-radius: 4px; padding: 0 5px; margin-right: 7px; vertical-align: 1px; color: var(--chip-ink); background: var(--chip); }
+.kind-level { --chip: #dbeafe; --chip-ink: #1e40af; }
+.kind-force { --chip: #ede9fe; --chip-ink: #5b21b6; }
+.kind-test { --chip: #fef3c7; --chip-ink: #92400e; }
+.kind-clear { --chip: #dcfce7; --chip-ink: #166534; }
+.kind-gear, .kind-build, .kind-setup { --chip: #ece9e2; --chip-ink: #57534e; }
+@media (prefers-color-scheme: dark) {
+  .kind-level { --chip: #1e2a44; --chip-ink: #93c5fd; }
+  .kind-force { --chip: #2a2142; --chip-ink: #c4b5fd; }
+  .kind-test { --chip: #3a2c10; --chip-ink: #fcd34d; }
+  .kind-clear { --chip: #14301f; --chip-ink: #86efac; }
+  .kind-gear, .kind-build, .kind-setup { --chip: #2c2a26; --chip-ink: #c7c2b8; }
+}
+.unlocks { font-size: 13px; font-weight: 600; color: var(--accent); }
+.row.done .unlocks { display: none; }
+
+.fold > summary { list-style: none; cursor: pointer; }
+.fold > summary::-webkit-details-marker { display: none; }
+.fold > summary header::before { content: "▸"; color: var(--muted); margin-right: 6px; }
+.fold[open] > summary header::before { content: "▾"; }
+.fold > summary header { justify-content: flex-start; }
+.fold > summary .count { margin-left: auto; }

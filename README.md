@@ -13,8 +13,12 @@ A daily sheet and progression plan for MapleStory's Challenger World
 
   The page shows countdowns and the local time of each reset. Set your level
   and rows you haven't unlocked move to a one-line "unlocks later" list.
-- **Plan:** one-off steps by level band, plus gear priority and commonly
-  forgotten items. The band you're in is highlighted.
+- **Plan:** level bands, each mixing level goals (marked with the bosses they
+  unlock full damage against), Arcane and Sacred Force thresholds, Practice
+  Mode readiness tests and boss clears. Bands you aren't in fold away. Numbers
+  are in `docs/bosses.md`.
+- **Gear:** starting gear, Item Burning, then a slot-by-slot path out of it
+  with when to switch, plus a farming setup (familiars, drop gear).
 
 Content is in `web/data.js`, with sources in `docs/v272.md` (patch notes) and
 `docs/guides.md` (community guidance). Fix the data, not the code, when the
