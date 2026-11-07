@@ -2,7 +2,7 @@
 // Plan (one-off progression steps). Content lives in data.js; this file only
 // renders it. Check-offs are stored locally and synced through /api/sync.
 
-import { GEAR, PLAN, SEASON, TODAY } from "./data.js";
+import { BOSSES, GEAR, PLAN, SEASON, TODAY } from "./data.js";
 import { merge } from "./merge.js";
 import { countdown, nextReset, periodKey } from "./time.js";
 
@@ -236,6 +236,10 @@ function gear() {
   return GEAR.map(planSection);
 }
 
+function bosses() {
+  return BOSSES.map(planSection);
+}
+
 // ---------- page ----------
 
 function levelInput() {
@@ -251,7 +255,7 @@ function levelInput() {
 
 function tabs() {
   return h("nav", { class: "tabs" },
-    [["today", "Today"], ["plan", "Plan"], ["gear", "Gear"]].map(([id, label]) =>
+    [["today", "Today"], ["plan", "Plan"], ["bosses", "Bosses"], ["gear", "Gear"]].map(([id, label]) =>
       h("button", { class: tab === id ? "on" : "", "aria-pressed": tab === id, onclick: () => { tab = id; save(TAB_KEY, tab); render(); } }, label)),
     levelInput());
 }
@@ -274,7 +278,7 @@ function renderSync() {
 
 function render() {
   const now = Date.now();
-  const page = tab === "plan" ? plan() : tab === "gear" ? gear() : today(now);
+  const page = tab === "plan" ? plan() : tab === "bosses" ? bosses() : tab === "gear" ? gear() : today(now);
   app.replaceChildren(tabs(), ...page, syncFooter());
 }
 
