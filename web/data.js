@@ -1,5 +1,6 @@
-// Everything the sheet lists. Sources: docs/v272.md (v.272 PTS notes) and
-// docs/guides.md (community guidance, Season 3 rules). Keep lists short: a row
+// Everything the sheet lists. Source of truth: docs/s4-guide.md (the Season 4
+// progression guide). Older sources fill gaps it doesn't cover: docs/v272.md
+// (v.272 PTS notes) and docs/guides.md (Season 3 guidance, Paladin). Keep lists short: a row
 // that isn't worth doing on a busy day goes under `later`, or nowhere.
 //
 // Today items: { id, label, note?, cadence, minLevel?, maxLevel?, from?, until? }
@@ -11,7 +12,7 @@
 export const SEASON = {
   start: "2026-11-11T00:00:00Z", // the live server opens after maintenance that day
   end: "2027-02-09T23:59:00Z",
-  source: "Times are UTC server time. Content per v.272 PTS notes (Nov 3); recheck against the live notes.",
+  source: "Times are UTC server time. Content per the Season 4 progression guide and the v.272 notes.",
 };
 
 const MAYRIN_FROM = "2026-11-12T00:00:00Z";
@@ -28,7 +29,8 @@ export const TODAY = [
       { id: "monster-park", cadence: "daily", label: "Monster Park (Sweep)", note: "Sweep your runs. 6 a week clears the Challenger weekly mission." },
       { id: "ursus", cadence: "daily", minLevel: 120, label: "Ursus (1 run)", note: "Down to 1 run a day with 3x mesos, and Golden Time is always on." },
       { id: "daily-bosses", cadence: "daily", minLevel: 140, label: "Daily bosses for mesos", note: "Hard Hilla, Chaos Pink Bean and Normal Cygnus are dailies now. Pink Bean drops the Pink Holy Cup pocket." },
-      { id: "arcane-seal", cadence: "daily", minLevel: 200, label: "Arcane Seal: spend wands", note: "+3 wands a day, capped at 20. Don't sit at the cap; barrier quality rises with your tier." },
+      { id: "arcane-seal", cadence: "daily", minLevel: 200, label: "Mystic Seal: hold your rods", note: "+3 Seal Control Rods a day, none while you hold 20. The Legendary chance rises at Gold, Emerald, Sapphire and Diamond, so only open seals when you'd hit the cap or shop rods are about to expire. Settle for Rare below Gold, Epic at Gold, Unique at Emerald/Sapphire, Legendary at Diamond. From Master, use them as they come." },
+      { id: "star-specks", cadence: "daily", minLevel: 260, label: "Trace Restore: Star Speck Boxes (optional)", note: "Up to 12 a day. The points carry over to your main world, so only if you feel like it." },
     ],
   },
   {
@@ -36,19 +38,22 @@ export const TODAY = [
     hint: "Resets Wednesday 00:00 UTC.",
     items: [
       { id: "cw-weekly", cadence: "weekly-wed", label: "Challenger weekly mission: 1,500 coins", note: "Do one: 6 Monster Park runs (easiest), 12 symbol dailies, or 5,000 kills near your level. Missing a week costs 10,000 Maple Points to buy back." },
+      { id: "crest-hunt", cadence: "weekly-wed", minLevel: 200, label: "Item Burning: hunt 10,000 monsters for 500 Crests", note: "100 Crests per 2,000 kills, capped at 500 a week. Open the Item Burning PLUS window to bank them. The full 6,500 takes at least 8 weeks, so never skip one. The reset day isn't confirmed; check it in game." },
     ],
   },
   {
     title: "Weekly · Bosses",
-    hint: "Resets Thursday 00:00 UTC. Solo first clears give Challenger points, Practice Mode counts, and a harder mode counts for the easier one. Crystals are your mesos. Boss HP is down about a third this patch.",
+    hint: "Resets Thursday 00:00 UTC. Solo first clears give Challenger points and one-time Crests, all-phase Practice Mode counts, and a harder mode counts for the easier one. Crystals are your mesos. IB n = Item Burning stage n.",
     items: [
-      { id: "wb-prearcane", cadence: "weekly-thu", minLevel: 180, label: "Chaos Zakum · Hard Magnus · Chaos Papulatus · Chaos Root Abyss", note: "Hard Magnus drops Crystal Ventus (badge); Chaos Vellum is Item Burning stage 2." },
-      { id: "wb-lotus-damien", cadence: "weekly-thu", minLevel: 190, label: "Lotus · Damien", note: "Normal Lotus is Item Burning stage 3. Hard: 1,500 points each." },
-      { id: "wb-slime-lucid-will", cadence: "weekly-thu", minLevel: 210, label: "Guardian Angel Slime · Lucid · Will", note: "Easy Lucid is Item Burning stage 4." },
-      { id: "wb-kai", cadence: "weekly-thu", minLevel: 235, label: "Kai (Normal)", note: "Solo, 10 deaths allowed. Gives mission credit only and doesn't use a crystal slot." },
-      { id: "wb-gloom-vh-darknell", cadence: "weekly-thu", minLevel: 245, label: "Gloom · Verus Hilla · Darknell", note: "Hard Verus Hilla is Item Burning stage 5." },
-      { id: "wb-grandis", cadence: "weekly-thu", minLevel: 260, label: "Seren · Kalos · First Adversary · Kaling", note: "Normal Seren, Easy Kalos and Easy First Adversary are Item Burning stages 6–8." },
-      { id: "wb-mayrin", cadence: "weekly-thu", minLevel: 270, from: MAYRIN_FROM, label: "Mayrin", note: "New Challenger boss, once per account, solo. Normal from 270 (5,000 points), Hard from 280 (9,000)." },
+      { id: "rental", cadence: "weekly-thu", minLevel: 200, until: "2027-02-10T00:00:00Z", label: "Arthur's Equipment Rental: rent everything, then boss", note: "1 free rental a week, lasting 2 days. Rent the full set with totems (about 1.9b) near the end of the boss week and run your hardest bosses in that window. Ends Feb 10." },
+      { id: "seal-shop", cadence: "weekly-thu", minLevel: 200, label: "Meso shop: Sealing Wand Coupons (optional)", note: "5m each, 50 a week. They expire 7 days after you buy them, so only buy what you'll open this week." },
+      { id: "wb-prearcane", cadence: "weekly-thu", minLevel: 180, label: "Chaos Zakum · Hard Magnus · Chaos Papulatus · Chaos Root Abyss", note: "Hard Magnus drops Crystal Ventus (badge). Clear every Chaos Root Abyss boss once for the King of Root Abyss title." },
+      { id: "wb-lotus-damien", cadence: "weekly-thu", minLevel: 190, label: "Lotus · Damien", note: "Normal Lotus is IB 1, Hard Damien IB 7. Hard: 1,500 points each." },
+      { id: "wb-slime-lucid-will", cadence: "weekly-thu", minLevel: 210, label: "Guardian Angel Slime · Lucid · Will", note: "Easy Lucid IB 2, Easy Will IB 3, Normal Lucid IB 5, Chaos Slime IB 9." },
+      { id: "wb-kai", cadence: "weekly-thu", minLevel: 235, label: "Kai (Normal)", note: "IB 4. Solo, 10 deaths allowed. Gives mission credit only and doesn't use a crystal slot." },
+      { id: "wb-gloom-vh-darknell", cadence: "weekly-thu", minLevel: 245, label: "Gloom · Verus Hilla · Darknell", note: "Normal Darknell IB 6, Normal Verus Hilla IB 8, Chaos Gloom IB 10." },
+      { id: "wb-grandis", cadence: "weekly-thu", minLevel: 260, label: "Seren · Kalos · First Adversary · Kaling", note: "Not Item Burning stages. Normal Kalos, Normal Adversary and Easy Kaling and up drop Eternal pieces (Easy Kaling only halves); party those." },
+      { id: "wb-mayrin", cadence: "weekly-thu", minLevel: 270, from: MAYRIN_FROM, label: "Mayrin", note: "Once per account, solo. Normal from 270 (5,000 points) is IB 11 and gates Master. Hard from 280 (9,000) gates Challenger and drops Eternal pieces." },
     ],
   },
   {
@@ -64,7 +69,7 @@ export const TODAY = [
     title: "Monthly",
     hint: "Resets on the 1st, 00:00 UTC.",
     items: [
-      { id: "black-mage", cadence: "monthly", minLevel: 255, label: "Hard Black Mage", note: "6,000 points. HP is down about 65% this patch." },
+      { id: "black-mage", cadence: "monthly", minLevel: 255, label: "Hard Black Mage", note: "6,000 points. HP is down about 65% and the timer is 20 minutes, so it sits with Normal Seren (45M CP+)." },
     ],
   },
 ];
