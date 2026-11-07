@@ -257,7 +257,7 @@ function tabs() {
 }
 
 function syncFooter() {
-  const link = `${location.origin}/#sync=${syncId}`;
+  const link = `${location.origin}${location.pathname}#sync=${syncId}`;
   return h("footer", { class: "foot" },
     h("span", { id: "sync" }, syncStatus),
     h("button", { class: "linkish", onclick: async () => {
