@@ -193,7 +193,7 @@ function today(now) {
 
 // What kind of goal a plan step is. Shown as a chip so a band reads as
 // "level up, fill symbols, test, clear" at a glance.
-const KIND = { level: "Level", force: "Symbols", test: "Test", clear: "Clear", gear: "Gear", build: "Build", setup: "Setup" };
+const KIND = { level: "Level", force: "Symbols", test: "Test", clear: "Clear", rank: "Rank", gear: "Gear", build: "Build", setup: "Setup" };
 
 function stepRow(step) {
   const item = { ...step, cadence: "once" };
@@ -257,7 +257,7 @@ function tabs() {
 }
 
 function syncFooter() {
-  const link = `${location.origin}/#sync=${syncId}`;
+  const link = `${location.origin}${location.pathname}#sync=${syncId}`;
   return h("footer", { class: "foot" },
     h("span", { id: "sync" }, syncStatus),
     h("button", { class: "linkish", onclick: async () => {

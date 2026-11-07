@@ -83,12 +83,14 @@ ol.rows > .row .label::before { content: counter(step) ". "; color: var(--muted)
 .kind-force { --chip: #ede9fe; --chip-ink: #5b21b6; }
 .kind-test { --chip: #fef3c7; --chip-ink: #92400e; }
 .kind-clear { --chip: #dcfce7; --chip-ink: #166534; }
+.kind-rank { --chip: #fce7f3; --chip-ink: #9d174d; }
 .kind-gear, .kind-build, .kind-setup { --chip: #ece9e2; --chip-ink: #57534e; }
 @media (prefers-color-scheme: dark) {
   .kind-level { --chip: #1e2a44; --chip-ink: #93c5fd; }
   .kind-force { --chip: #2a2142; --chip-ink: #c4b5fd; }
   .kind-test { --chip: #3a2c10; --chip-ink: #fcd34d; }
   .kind-clear { --chip: #14301f; --chip-ink: #86efac; }
+  .kind-rank { --chip: #3b1626; --chip-ink: #f9a8d4; }
   .kind-gear, .kind-build, .kind-setup { --chip: #2c2a26; --chip-ink: #c7c2b8; }
 }
 .unlocks { font-size: 13px; font-weight: 600; color: var(--accent); }
