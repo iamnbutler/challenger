@@ -21,7 +21,9 @@ Hilla, Dusk = Gloom, Maerin = Mayrin.
 | Master | 70,000 + Normal Mayrin | Lv 281 + all through Easy Kalos; or Lv 276 + all through Easy Adversary | 60 Karma Bright Cubes (Heroic), 3 Memento Armor 18★ scrolls, Lv 250 growth potion |
 | Challenger | 90,000 + Hard Mayrin | Lv 284 + all through Easy Adversary + Hard Mayrin; or Lv 280 + all through Hard Seren + Hard Mayrin | Lv 20 Sol Janus voucher, furnishing |
 
-Bronze to Platinum rewards are Challenger World only; Emerald and up can be
+"Chaos Tenebris" means the Tier 5 Tenebris bosses (Chaos Gloom, Hard Verus
+Hilla, Hard Darknell); "through Chaos Tenebris" reads as all of Tier 5 but
+Mayrin. Bronze to Platinum rewards are Challenger World only; Emerald and up can be
 received on all worlds.
 
 ## Boss tiers and combat power
