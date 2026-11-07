@@ -220,8 +220,8 @@ export const PLAN = [
 ];
 
 // Gear runs: starting gear → Item Burning's Challenger set → getting out of it.
-// Item Burning gear outlasts the season (Korea's expired about two months after
-// it ended), but every replacement below is permanent and survives a World Leap.
+// Item Burning gear, its Ignitia keys and Arthur's rentals all end Feb 10,
+// 2027, so every slot needs a permanent piece by then.
 export const GEAR = [
   {
     id: "start",
@@ -229,52 +229,76 @@ export const GEAR = [
     intro: "Most of this comes from Hyper Burning level rewards. Equip it as it arrives; don't spend mesos on any of it.",
     steps: [
       { id: "gs-acc", label: "Burning Boss Accessory Box (Lv 200)", note: "A full boss accessory set, and permanent." },
-      { id: "gs-pendant", label: "Selector: pick the Dominator Pendant, not the AbsoLab weapon", note: "Item Burning gives you a weapon. The pendant stays useful much longer." },
-      { id: "gs-rings", label: "Rings: Abyss Hunter Ring, event rings, Eternal Flame Ring" },
-      { id: "gs-title", label: "Title: Eternal Flame; save it until you need it", note: "Title stats run on a 60-day timer." },
+      { id: "gs-pendant", label: "Selector: pick the Dominator Pendant, not the AbsoLab weapon", note: "Item Burning gives you a weapon. The pendant stays useful until a Superior Gollux pendant." },
+      { id: "gs-rings", label: "Rings: event rings, then the free skill rings", note: "Bronze gives a selective Lv 3 skill ring (take Continuous); Silver gives the Lv 4 version of the other one (Restraint). Restraint 4 is most classes' skill ring." },
+      { id: "gs-title", label: "Title: wear a real one", note: "Event titles no longer give stats; those are in the Hyper or Beyond Burning passive now. King of Root Abyss (all Chaos Root Abyss once) is the easy pick." },
       { id: "gs-ib", label: "Item Burning Plus: equip the Challenger set at 200", note: "Weapon and armor. Their stars and potential come from the stage missions, so don't spend on them." },
-      { id: "gs-secondary", label: "Frozen Secondary", note: "A Hyper Burning reward, and 100 coins in Season 3's shop. A rosary or shield; both work with Shield Mastery." },
+      { id: "gs-secondary", label: "Frozen Secondary: cube it now", note: "Aim for 2 lines of Boss% and ATT%. A Pitched secondary is only +6 stat and +4 ATT better, not worth weeks of lost lines, and an Astra secondary replaces either later." },
+      { id: "gs-rental", label: "Arthur's Equipment Rental covers face, eye, one pendant, belt and earrings", note: "Until Feb 10, so don't spend on those slots for bossing. Spend on what it doesn't cover: 3 rings, pocket, second pendant, secondary, emblem, medal, badge." },
     ],
   },
   {
     id: "ib",
-    title: "Item Burning: what it gives",
-    intro: "Season 3 (8 stages): armor reached 22★ at the last stage, but the weapon stopped at 18★. This season also has 8 stages, but the notes don't list them.",
+    title: "Item Burning: 11 stages",
+    intro: "Challenger World characters only, and it stops upgrading if you leap. Each stage is a solo clear at a level, and from stage 3 a number of Crests held. Hunting gives 500 a week at most and first solo clears 2,600 in all, so week 1 can reach stage 7 and all 6,500 takes at least 8 weeks.",
+    ordered: true,
     steps: [
-      { id: "gi-keys", label: "Use your Challenger Keys", note: "Early stages give 2 keys each. A key adds the Ignitia set to any armor or weapon piece outside the Challenger and Eternal sets: ATT, plus Boss 10% at 2/4/6/8 pieces and IED 10% at 1/3/5. People forget them." },
-      { id: "gi-crests", label: "Bank Challenge Crests for the later stages", note: "Season 3's last four stages needed 600, 800, 1,000 and 1,500. Korea's Season 4 needed 6,500 for the final stage, from weekly hunting and first boss clears." },
-      { id: "gi-hat", label: "Cooldown hat?", note: "In Korea's Season 4 you could switch the Challenger hat to a cooldown hat and back. Check whether Paladin wants one; it fits 2 Falling Justice casts in one Divine Echo window." },
+      { id: "ib-s1", label: "Lv 225 · Normal Lotus", note: "18★, armor potential Unique." },
+      { id: "ib-s2", label: "Lv 250 · Easy Lucid", note: "Better scroll values. Weapon bonus potential Unique, armor bonus potential Epic." },
+      { id: "ib-s3", label: "Lv 255 · Easy Will · 250 Crests", note: "Weapon potential Legendary." },
+      { id: "ib-s4", label: "Lv 260 · Normal Kai · 750 Crests", note: "Hat potential Legendary, your choice: 2 lines main stat, or 2s cooldown plus 1 line main stat. Paladin: the cooldown hat fits 2 Falling Justice casts in one Divine Echo window." },
+      { id: "ib-s5", label: "Lv 265 · Normal Lucid · 1,500 Crests", note: "Shoes, cape, gloves 19★." },
+      { id: "ib-s6", label: "Lv 265 · Normal Darknell · 2,250 Crests", note: "Hat, top, bottom, shoulder 19★." },
+      { id: "ib-s7", label: "Lv 270 · Hard Damien · 3,000 Crests", note: "Shoes, cape, gloves 20★." },
+      { id: "ib-s8", label: "Lv 270 · Normal Verus Hilla · 3,750 Crests", note: "Hat, top, bottom, shoulder 20★." },
+      { id: "ib-s9", label: "Lv 275 · Chaos Slime · 4,500 Crests", note: "Shoes, cape, gloves 21★." },
+      { id: "ib-s10", label: "Lv 275 · Chaos Gloom · 5,500 Crests", note: "Hat, top, bottom, shoulder 21★." },
+      { id: "ib-s11", label: "Lv 280 · Normal Mayrin · 6,500 Crests", note: "Armor 22★." },
     ],
+    later: {
+      title: "Ignitia Keys",
+      steps: [
+        { id: "gi-keys", label: "Put Ignitia Keys on non-Challenger pieces", note: "2 keys per stage, so the first 4 stages give them all. A key on any piece that isn't Challenger, Eternal or Sengoku stands in for the Challenger set effect it replaced. The set effect stops at 7 of the 8 pieces, so your first key is a free bonus. Lasts until Feb 10." },
+      ],
+    },
   },
   {
     id: "exit",
     title: "Getting out of Item Burning, slot by slot",
-    intro: "Ranked by when the switch usually comes. Replace a Challenger piece only when the new one beats it at its current stars.",
+    intro: "Ranked by when the switch usually comes. Replace a Challenger piece only when the new one beats it at its current stars, and have a permanent piece in every slot by Feb 10.",
     ordered: true,
     steps: [
-      { id: "gx-emblem", label: "Emblem: Gold Emblem → Legendary → Mitra's Rage", when: "Legendary right away (a 1,500-coin Heroic mission). Mitra's Rage comes from Hard Seren.", note: "Lines: ATT%, Boss and IED." },
-      { id: "gx-secondary", label: "Secondary: Frozen → Legendary", when: "Right away: another 1,500-coin Heroic mission. Keep it." },
-      { id: "gx-acc", label: "Accessories: boss box → Superior Gollux → pitched pieces", when: "Each Superior piece (700 coins, 1 a week) or boss drop as it comes. Full Superior takes about 100 days of Hell, so Hell drops of the earrings or belt decide it.", note: "Drops: Dreamy Belt (Hard Lucid), Commanding Force Earring (Hard Darknell), Source of Suffering (Hard Verus Hilla), Berserked (Hard Lotus), Magic Eyepatch (Hard Damien)." },
-      { id: "gx-rings", label: "Rings: event and Abyss Hunter rings → Superior Gollux ring, Guardian Angel Ring, Endless Terror", when: "On Gollux and drops (Guardian Angel Slime, Chaos Gloom). In Season 3, Silver tier gave a Lv 4 special skill ring (Restraint or Weapon Jump), so don't buy one." },
-      { id: "gx-pocket-badge", label: "Pocket and badge: Pink Holy Cup → Cursed Spellbook; Crystal Ventus → Genesis Badge", when: "Spellbook from Hard Will, Genesis Badge from Hard Black Mage. Don't spend Pitched Whisper Crystals before then." },
-      { id: "gx-heart", label: "Heart: Fairy Heart → Plasma", when: "Tier rewards. In Korea's Season 4, Gold gave a Fairy Heart and Diamond a Plasma module." },
-      { id: "gx-armor", label: "Hat, top, bottom, shoulder: Challenger 22★ → Eternal 18★", when: "When Eternal pieces drop (Kai and Mayrin boxes) or a tier gives 18★ scrolls. Finish before the Item Burning gear expires, about two months after the season." },
-      { id: "gx-glove", label: "Gloves, shoes, cape: keep Challenger 22★", when: "Only for an Arcane piece at 22★, one at a time. Put a Challenger Key on it so you keep the Ignitia set bonus." },
-      { id: "gx-weapon", label: "Weapon: Challenger 18★ → Genesis (two-handed blunt)", when: "When you liberate at Black Mage. The Genesis Pass (Nov 12 to Feb 8) triples Traces and allows parties of 6. A two-handed blunt weapon gets High Paladin's +10% IED." },
+      { id: "gx-emblem", label: "Emblem: Gold Emblem → Legendary → Mitra's Rage", when: "Legendary right away (a 1,500-coin Heroic mission). Mitra's Rage comes from Hard Seren.", note: "One IED line is fine early; then ATT% + IED (never 2 IED lines); from Platinum, ATT% only. 2 lines of ATT% is all you need before Mitra's Rage." },
+      { id: "gx-secondary", label: "Secondary: Frozen → Legendary", when: "Right away: another 1,500-coin Heroic mission. Keep it until an Astra secondary." },
+      { id: "gx-rings", label: "Rings: skill ring, event ring → Superior Gollux, Slime Ring, Endless Terror", when: "Event ring until the Superior Gollux ring; Guardian Angel Ring from Slime; Endless Terror from Chaos Gloom (or Kanna's Treasure, Meister).", note: "Daybreak Pendant with the Slime Ring gives the 2-set Dawn bonus." },
+      { id: "gx-acc", label: "Accessories: rentals and boss box → Superior Gollux and pitched pieces", when: "Before rentals end Feb 10. Each Superior piece is 700 coins, 1 a week.", note: "Belt: Superior Gollux (an 18★+ Golden Clover belt transfers over meanwhile). Earrings: Superior Gollux (18★+ Dea Sidus or Reinforced meanwhile). Face: Twilight Mark or Berserked. Eye: Black Bean Mark, Papulatus Mark or Magic Eyepatch. Pendants: Dominator until a Superior pendant, Mechinator until Daybreak." },
+      { id: "gx-pocket-badge", label: "Pocket and badge: Pink Holy Cup → Cursed Spellbook; Crystal Ventus → Genesis Badge", when: "Spellbook from Hard Will, Genesis Badge from Hard Black Mage, or Pitched Whisper Crystals." },
+      { id: "gx-heart", label: "Heart: Fairy Heart → Plasma", when: "Fairy Heart at Gold, the Plasma module at Diamond." },
+      { id: "gx-glove", label: "Shoes, gloves, cape: Arcane + Memento Armor 18★ scroll", when: "Master gives 3 Memento Armor 18★ scrolls for Lv 200-or-lower armor. Put them on Arcane shoes, gloves and cape.", note: "About 20–21★, free apart from potential, and permanent. Arcane pieces also take Ignitia Keys." },
+      { id: "gx-armor", label: "Hat, top, bottom, shoulder: Challenger 22★ → Eternal 18★", when: "As Eternal pieces drop; don't use Memento scrolls here.", note: "Sources: Hard Mayrin (2 at most; solo her from week 4 for the second), Normal Kalos, Normal First Adversary, Kaling (Easy gives halves), Normal Malefic Star. Party everything except Mayrin. 18★ Eternal beats 22★ Challenger." },
+      { id: "gx-weapon", label: "Weapon: Challenger → Genesis (two-handed blunt)", when: "Leave it alone until you liberate; an Arcane weapon isn't needed for anything before then, and isn't worth making with a Genesis Pass.", note: "A two-handed blunt weapon gets High Paladin's +10% IED." },
     ],
   },
   {
     id: "farming",
-    title: "Farming: familiars and drop gear",
-    intro: "Heroic mesos come from drops (×6 on Heroic). Caps: Mesos Obtained +100% from gear and familiars together, Item Drop +200% from gear. About 67% item drop means every kill drops a meso bag.",
+    title: "Farming: meso and drop gear",
+    intro: "The guide's top priority if you grind. Heroic mesos come from drops (×6 on Heroic). Caps: Mesos Obtained +100% from gear and familiars together, Item Drop +200% from gear. With this season's normal monster damage, any accessories will do for farming.",
     ordered: true,
     steps: [
+      { id: "drop-gear", label: "Farming accessories, one line each", note: "Silver Blossom Ring, Treasure Hunter John Ring (5 minutes of Neo Lion Castle quests), 2 event rings, Mechinator Pendant, Spirit Pendant (or Chaos Horntail Necklace; a Greed Pendant adds +20% equipment drop), Dea Sidus Earrings, Condensed Power Crystal, Aquatic Letter Eye." },
+      { id: "drop-meso", label: "Roll meso lines to +100%, then drop", note: "One line on each gets about +100% meso and +60% drop with the Spirit Pendant. If you mostly boss, put drop first." },
+      { id: "drop-boss", label: "A drop set for bossing: 9 × 20% = 180%", note: "Drop rate also helps you get the damage accessories you need." },
       { id: "fam-keep", label: "Keep every familiar card from the start", note: "Cards drop in Maple World, Arcane River from Morass on, and Grandis. Fuse duplicates to rank up (Unique at most); extract the rest for points." },
       { id: "fam-badges", label: "Familiar badges: 1 for a second slot, 10 for a third" },
       { id: "fam-drop", label: "A drop familiar and a meso familiar", note: "Epic lines are +60/100% Boost, Unique +110%. Drop lines don't stack across familiars. Heroic can't buy Red Familiar Cards, so you rank up by fusing." },
       { id: "drop-ia", label: "Inner Ability preset with a +20% meso or drop line", note: "Swap to it for farming. Your bossing preset keeps Attack Speed and Boss." },
-      { id: "drop-gear", label: "Roll drop gear: meso lines first, then drop lines", note: "Legendary lines are +20% Meso or +20% Drop, on earrings, pendants, rings, face and eye. Five meso lines reach the +100% cap. Keep it as a separate preset from your bossing accessories." },
       { id: "wap", label: "Wealth Acquisition Potion for long sessions", note: "×1.2 mesos outside the cap, and +20% drop." },
     ],
+    later: {
+      title: "Two-line items (not on a mule)",
+      steps: [
+        { id: "drop-2l", label: "Double meso, double drop or hybrid lines", note: "Expected Bright Cubes: any 2-line 164 (about 3.6b), double drop or hybrid 219 (4.8b), double drop only 654 (14.4b). Meso caps at 100%, so after 2 double-meso items only drop lines help. Not worth it on a character that stops near 280." },
+      ],
+    },
   },
 ];
