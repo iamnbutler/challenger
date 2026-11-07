@@ -40,6 +40,11 @@ main { max-width: 760px; margin: 0 auto; padding: 0 16px 40px; }
 .tabs button.on { background: var(--ink); color: var(--bg); border-color: var(--ink); }
 .level { margin-left: auto; display: flex; align-items: center; gap: 6px; font-weight: 600; color: var(--muted); }
 .level input { width: 64px; font: inherit; font-weight: 600; color: var(--ink); background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 5px 8px; }
+@media (max-width: 420px) {
+  .tabs { gap: 4px; }
+  .tabs button { padding: 6px 8px; }
+  .level input { width: 52px; }
+}
 
 .resets { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 8px; margin: 4px 0 14px; }
 .reset { background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); padding: 8px 10px; display: flex; flex-direction: column; }

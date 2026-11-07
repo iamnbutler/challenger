@@ -283,3 +283,85 @@ export const GEAR = [
     ],
   },
 ];
+
+// Boss reference, by the guide's tiers (docs/s4-guide.md). A check means a solo
+// clear. Meta is data only: boss level, force, Challenger points, one-time
+// Crests, Item Burning stage, drop. Numbers we don't have are left out.
+const b = (id, label, ...meta) => ({ id, label, note: meta.join(" · ") || undefined });
+export const BOSSES = [
+  {
+    id: "tier1",
+    title: "Tier 1 · Free",
+    steps: [
+      b("b-prearcane", "Cygnus, Hilla, Pink Bean, Zakum, Root Abyss, Magnus, Vellum, Papulatus", "Chaos Zakum 100 pts", "Chaos Root Abyss: title"),
+      b("b-lotus-n", "Normal Lotus", "50 Crests", "IB 1"),
+      b("b-damien-n", "Normal Damien", "50 Crests"),
+    ],
+  },
+  {
+    id: "tier2",
+    title: "Tier 2",
+    steps: [
+      b("b-slime-n", "Normal Slime", "50 Crests"),
+      b("b-lucid-e", "Easy Lucid", "ARC 360", "50 Crests", "IB 2"),
+      b("b-will-e", "Easy Will", "ARC 760", "50 Crests", "IB 3"),
+    ],
+  },
+  {
+    id: "tier3",
+    title: "Tier 3",
+    steps: [
+      b("b-kai", "Kai", "1,000 pts", "50 Crests", "IB 4", "30 min, 10 deaths"),
+      b("b-lucid-n", "Normal Lucid", "Lv 230", "ARC 360", "1,000 pts", "100 Crests", "IB 5"),
+      b("b-will-n", "Normal Will", "Lv 250", "ARC 760", "1,000 pts", "100 Crests"),
+      b("b-gloom-n", "Normal Gloom", "ARC 730", "150 Crests"),
+      b("b-darknell-n", "Normal Darknell", "ARC 850", "150 Crests", "IB 6"),
+    ],
+  },
+  {
+    id: "tier4",
+    title: "Tier 4 · 10–15M CP",
+    steps: [
+      b("b-lotus-h", "Hard Lotus", "Lv 210", "1,500 pts", "150 Crests", "Berserked"),
+      b("b-damien-h", "Hard Damien", "Lv 210", "1,500 pts", "150 Crests", "IB 7", "Magic Eyepatch"),
+      b("b-vh-n", "Normal Verus Hilla", "175 Crests", "IB 8"),
+    ],
+  },
+  {
+    id: "tier5",
+    title: "Tier 5 · 20–30M CP",
+    steps: [
+      b("b-slime-c", "Chaos Slime", "Lv 250", "175 Crests", "IB 9"),
+      b("b-lucid-h", "Hard Lucid", "Lv 230", "ARC 360", "2,000 pts", "175 Crests", "Dreamy Belt"),
+      b("b-will-h", "Hard Will", "Lv 250", "ARC 760", "2,500 pts", "175 Crests", "Cursed Spellbook"),
+      b("b-gloom-c", "Chaos Gloom", "Lv 255", "ARC 730", "2,500 pts", "200 Crests", "IB 10", "Endless Terror"),
+      b("b-vh-h", "Hard Verus Hilla", "Lv 250", "ARC 900", "3,000 pts", "200 Crests", "Source of Suffering"),
+      b("b-darknell-h", "Hard Darknell", "Lv 265", "ARC 850", "3,000 pts", "200 Crests", "Commanding Force Earring"),
+      b("b-mayrin-n", "Normal Mayrin", "Entry 270", "5,000 pts", "200 Crests", "IB 11"),
+    ],
+  },
+  {
+    id: "tier6",
+    title: "Tier 6 · 45–65M CP",
+    steps: [
+      b("b-bm-h", "Hard Black Mage", "45M CP", "ARC 1320", "6,000 pts", "Monthly", "Genesis Badge"),
+      b("b-seren-n", "Normal Seren", "45M CP", "Lv 270", "SAC 200", "6,000 pts"),
+      b("b-kalos-e", "Easy Kalos", "55M CP", "Lv 270", "SAC 200", "7,000 pts"),
+      b("b-adversary-e", "Easy First Adversary", "65M CP", "Lv 270", "SAC 220", "9,000 pts"),
+    ],
+  },
+  {
+    id: "tier7",
+    title: "Tier 7 · 85–120M CP",
+    steps: [
+      b("b-seren-h", "Hard Seren", "85M CP", "Lv 275", "SAC 200", "7,000 pts", "Mitra's Rage"),
+      b("b-mayrin-h", "Hard Mayrin", "120M CP", "Entry 280", "9,000 pts", "Eternal pieces"),
+    ],
+    later: {
+      title: "Not needed for rank",
+      steps: [
+        b("b-kaling-e", "Easy Kaling", "Lv 275", "SAC 230", "9,000 pts", "Half Eternals"),
+      ],
+    },
+  },
+];
