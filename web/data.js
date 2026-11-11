@@ -98,7 +98,6 @@ export const PLAN = [
     steps: [
       { id: "burn-rewards", kind: "setup", label: "Claim Hyper Burning rewards", note: "Hold symbol selectors until each region's story is done." },
       { id: "pass", kind: "setup", label: "Lv 101: join the Challenger Pass" },
-      { id: "hypers", paladin: true, kind: "build", label: "Lv 140: Hyper Skills", note: "Blast Extra Strike, Blast Reinforce; Heaven's Hammer Cooldown Cutter, Extra Strike, Reinforce." },
       { id: "inner-ability", paladin: true, kind: "build", label: "Inner Ability: Attack Speed +1, Boss 10%, Abnormal Status 8%", note: "Roll lines 2–3 first, lock them, then line 1." },
     ],
   },
@@ -110,7 +109,6 @@ export const PLAN = [
     steps: [
       { id: "hyper-blink", kind: "level", label: "Hyper Blink to 260", note: "Pop a 3x coupon first." },
       { id: "greater-power", kind: "setup", label: "5th job and \"A Greater Power\"" },
-      { id: "v-node1", paladin: true, kind: "build", label: "Boost Node 1 (Blast + Divine Judgment) to Lv 40" },
       { id: "v-jobnodes", paladin: true, kind: "build", label: "Job nodes to Lv 25: Divine Echo first, then Grand Guardian, Hammers, Mjolnir" },
       { id: "tier1", kind: "clear", label: "Free bosses through Normal Lotus and Damien" },
       { id: "f-arc360", kind: "force", label: "ARC 360", unlocks: "Lucid" },
@@ -379,7 +377,6 @@ export const PALADIN = [
     steps: [
       p("pal-weapon", "Two-handed blunt weapon", "High Paladin adds 10% IED with a blunt; two-handed has the bigger multiplier."),
       p("pal-as10", "Attack Speed 10", "Two-handed needs IA Attack Speed +1, Decent Speed Infusion and an Extreme Green Potion."),
-      p("pal-trinodes", "Trinodes: Blast / Divine Judgment / Divine Charge, twice", "Lead with a different skill on each."),
       p("pal-decents", "Decent Holy Symbol, Speed Infusion, Sharp Eyes at Lv 1", "Skip a Decent the gloves already give."),
       p("pal-utility", "One point each: Blink, Rope Lift, Erda's Will", "Erda's Will clears Black Mage curses."),
       p("pal-artifact", "Legion Artifact: Damage, Boss, Crit Rate, then IED, Crit Damage"),
@@ -388,7 +385,6 @@ export const PALADIN = [
     later: {
       title: "Later",
       steps: [
-        p("pal-opt-nodes", "Second trinode set: Heaven's Hammer / Final Attack / Smite Shield"),
         p("pal-cdr-hat", "-4s cooldown hat", "Fits 2 Falling Justice per Echo. Not needed."),
         p("pal-decents-25", "Decent Speed Infusion and Sharp Eyes to Lv 25", "+5–6 all stat once other nodes are maxed."),
       ],

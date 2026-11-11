@@ -21,13 +21,9 @@ What the sheet takes from it (`PALADIN` in `web/data.js`, plus rows flagged
   Crit Rate is no longer needed with Legion Artifact.
 - Legion Artifact crystals 1–4: Damage/Boss/Crit Rate, Boss/Damage/Crit Rate,
   Crit Damage/IED/flex, IED/Crit Damage/flex (flex: All Stat, ATT, Buff Duration).
-- Hyper passives (bossing): Blast Extra Strike, Blast Reinforce, Heaven's Hammer
-  Cooldown Cutter, Extra Strike, Reinforce. (Mobbing swaps the Blast two for
-  Divine Charge.) This replaces docs/guides.md's Divine Charge Extra Strike.
-- V-Matrix: one core trinode set, Blast / Divine Judgment / Divine Charge, made
-  twice with different leading skills. Optional second set: Heaven's Hammer /
-  Final Attack / Smite Shield. Divine Echo is the first job node to level
-  (solo vs duo gap is ~10–12% FD at max HEXA).
+- V-Matrix: Divine Echo is the first job node to level (solo vs duo gap is
+  ~10–12% FD at max HEXA). Trinodes and pre-5th-job skill points are left out:
+  trinodes are gone from the game.
 - HEXA: Origin Sacred Bastion; Masteries 1 Blast + Divine Judgment, 2 Divine
   Charge + Mark + Falling Justice, 3 Heaven's Hammer (passive boosts Blast and
   Judgment), 4 Final Attack + Rising Justice; boosts Divine Echo, Hammers of the
@@ -35,8 +31,8 @@ What the sheet takes from it (`PALADIN` in `web/data.js`, plus rows flagged
   (<https://docs.google.com/spreadsheets/d/1UXdvFBgog9C5pauyjYNhTcKuZ9LVOA98tHB-C9GD4UU/>).
 - DPM share (6-min rotation): Blast + Judgment ~51%, Grand Guardian ~16%,
   Hammers ~12%, Mjolnir ~7%, Sacred Bastion ~5%.
-- IED target: 93–95% on screen. Noble Demand adds 50% off screen, Blast/Judgment
-  nodes at Lv 40 add 20%, Grand Guardian ignores 100%.
+- IED target: 93–95% on screen. Noble Demand adds 50% off screen, Grand Guardian
+  ignores 100%.
 - Cooldown hat: optional; -4s fits two Falling Justice per Divine Echo.
 
 Not taken: culvert rotation (outdated in the doc), Reboot meso costs, abnormal
