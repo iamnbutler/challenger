@@ -2,7 +2,7 @@
 // Plan (one-off progression steps). Content lives in data.js; this file only
 // renders it. Check-offs are stored locally and synced through /api/sync.
 
-import { BOSSES, GEAR, PLAN, SEASON, TODAY } from "./data.js";
+import { BOSSES, EVENTS, GEAR, PLAN, SEASON, TIMELINE, TODAY } from "./data.js";
 import { merge } from "./merge.js";
 import { countdown, nextReset, periodKey } from "./time.js";
 
@@ -228,6 +228,7 @@ function stepRow(step) {
         step.unlocks && h("span", { class: "unlocks" }, `Full damage: ${step.unlocks}`),
         step.when && h("span", { class: "unlocks" }, `Switch when: ${step.when}`),
         step.note && h("span", { class: "note" }, step.note),
+        step.use && h("span", { class: "use" }, step.use),
         step.pal && paladin() && h("span", { class: "note pal" }, step.pal),
         step.chips && h("span", { class: "chips" }, step.chips.map((c) =>
           h("span", { class: "chip" }, icon(c.icon), h("span", {}, h("b", {}, c.label), c.note && h("small", {}, c.note))))))));
@@ -302,6 +303,31 @@ function gear() {
   return GEAR.map(planSection);
 }
 
+// The season as a line: every dated breakpoint placed by date, with today
+// marked, then the same breakpoints as an agenda with the next one called out.
+const dayFmt = new Intl.DateTimeFormat(undefined, { month: "short", day: "numeric", timeZone: "UTC" });
+const wdFmt = new Intl.DateTimeFormat(undefined, { weekday: "short", timeZone: "UTC" });
+function seasonTimeline(now) {
+  const t0 = Date.parse(SEASON.start), t1 = Date.parse("2027-02-10T00:00:00Z");
+  const pos = (t) => `${Math.min(100, Math.max(0, ((t - t0) / (t1 - t0)) * 100))}%`;
+  const items = TIMELINE.map((e) => ({ ...e, t: Date.parse(`${e.at}T00:00:00Z`) }));
+  const next = items.find((e) => e.t + 86_400_000 > now);
+  return h("section", { class: "card season-line" },
+    h("header", {}, h("h2", {}, "Season")),
+    h("div", { class: "track", role: "img", "aria-label": "Season timeline, Nov 11 to Feb 10" },
+      items.map((e) => h("span", { class: `tick ${e.kind ?? ""}`, style: `left:${pos(e.t)}`, title: `${dayFmt.format(e.t)}: ${e.label}` })),
+      now > t0 && now < t1 && h("span", { class: "today-mark", style: `left:${pos(now)}` }),
+      h("span", { class: "track-end start" }, "Nov 11"), h("span", { class: "track-end end" }, "Feb 10")),
+    h("ol", { class: "agenda" }, items.map((e) =>
+      h("li", { class: ["ag", e.kind, e === next && "next", e.t + 86_400_000 <= now && "past"].filter(Boolean).join(" ") },
+        h("span", { class: "ag-date" }, dayFmt.format(e.t), h("small", {}, wdFmt.format(e.t))),
+        h("span", { class: "what" }, h("span", { class: "label" }, e.label, e === next && h("span", { class: "tag now" }, "next")), e.note && h("span", { class: "note" }, e.note))))));
+}
+
+function events(now) {
+  return [seasonTimeline(now), ...EVENTS.map(planSection)];
+}
+
 function bosses() {
   return BOSSES.map(planSection);
 }
@@ -322,7 +348,7 @@ function levelInput() {
 }
 
 function tabs() {
-  const list = [["today", "Today"], ["plan", "Plan"], ["bosses", "Bosses"], ["gear", "Gear"]];
+  const list = [["today", "Today"], ["plan", "Plan"], ["bosses", "Bosses"], ["gear", "Gear"], ["events", "Events"]];
   return h("nav", { class: "tabs" },
     list.map(([id, label]) =>
       h("button", { class: tab === id ? "on" : "", "aria-pressed": tab === id, onclick: () => { tab = id; save(TAB_KEY, tab); render(); } }, label)),
@@ -353,7 +379,7 @@ function renderSync() {
 
 function render() {
   const now = Date.now();
-  const page = tab === "plan" ? plan() : tab === "bosses" ? bosses() : tab === "gear" ? gear() : today(now);
+  const page = tab === "plan" ? plan() : tab === "bosses" ? bosses() : tab === "gear" ? gear() : tab === "events" ? events(now) : today(now);
   brand.replaceChildren("Challenger ", h("small", {}, "Heroic"), classToggle());
   app.replaceChildren(tabs(), ...page, syncFooter());
 }

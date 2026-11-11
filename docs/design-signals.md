@@ -15,6 +15,9 @@ How Nate wants the sheet to look and read, from November 2026 on. Quotes are ver
 - **Rotation is a picture.** "Rotation should be more visual and have icons, etc..." The burst is drawn as a sequence of skill keys, not a numbered list.
 - **Stale game systems go, without asking.** "trinodes are gone. anything about leveling skills before 5th job can go." Check docs/v272.md and docs/guides.md for what Challenger World turns off (Legion, Legion Artifacts, link transfer) before carrying advice over from a regular-server guide.
 
+- **Leveling systems get a canonical order.** "events like thse \"Etherion Relics\" events I never know the best order to level it in either. so under an events tab give me a canonical order" (2026-11-11). The Events tab gives each levelable system a checkable order.
+- **Track every source of a reward and plan its use.** "we should log all the sources of event rings, and designate them for starter gear -> transition into drop gear." Event rings get their own card: source, timing, and where each goes.
+
 ## No verdict yet
 
 - The Paladin checkbox in the header (shows Paladin rows; on by default).
