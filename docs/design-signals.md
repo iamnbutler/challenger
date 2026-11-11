@@ -18,6 +18,9 @@ How Nate wants the sheet to look and read, from November 2026 on. Quotes are ver
 - **Leveling systems get a canonical order.** "events like thse \"Etherion Relics\" events I never know the best order to level it in either. so under an events tab give me a canonical order" (2026-11-11). The Events tab gives each levelable system a checkable order.
 - **Track every source of a reward and plan its use.** "we should log all the sources of event rings, and designate them for starter gear -> transition into drop gear." Event rings get their own card: source, timing, and where each goes.
 
+- **One HEXA order, tappable.** "I just want one canonical hexa order. As long as it's moderately efficient, that's all I care about. I want this sort of UI where I can just click them to mark where I am so far." (2026-11-11, with a screenshot of a tile-grid priority chart.) The calculator link is gone; the order is a grid of icon tiles, tap to mark progress.
+- **Build lives in one tab.** "Hexa being in plan doesn't make sense. Maybe you want a character tab... You can link out to it at various spots in the plan, but working through over time should be kind of all in one tab." and "The character tab can also have reference, for example, what should my sequence and buff sequences look like." Character holds HEXA, burst, buffs, training, 5th job, stats and defenses; Plan has link rows at the right levels.
+
 ## No verdict yet
 
 - The Paladin checkbox in the header (shows Paladin rows; on by default).
