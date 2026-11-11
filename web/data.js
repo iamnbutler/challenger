@@ -8,6 +8,11 @@
 //   from/until: UTC instants; outside them the row is hidden.
 // Plan sections: { id, title, intro?, levels?: [min, max), ordered?, steps, later? }
 //   A step is { id, label, note? }, checked once and never reset.
+// Class: `paladin: true` shows a row or section only with the Paladin toggle on,
+//   `paladin: false` only with it off. `pal` is a note line shown only for Paladin.
+// Icons: `icons: ["blast", ...]` names files in web/icons/ (from maplestorywiki.net).
+// Sections may set `view`: "rotation" (a burst drawn as keys), or `ref: true`
+//   (reading, not check-offs). A section `link` is { label, href } at its foot.
 
 export const SEASON = {
   start: "2026-11-11T00:00:00Z", // the live server opens after maintenance that day
@@ -80,11 +85,11 @@ export const PLAN = [
     title: "Day 1 · Nov 11, after maintenance",
     ordered: true,
     steps: [
-      { id: "pick-heroic", kind: "setup", label: "Make the Paladin in Challenger-Heroic" },
+      { id: "pick-heroic", kind: "setup", label: "Make the character in Challenger-Heroic" },
       { id: "hyper-burning", kind: "setup", label: "Hyper Burning MAX; not a Quanah leap character", note: "A leap character can't take Beyond Burning." },
       { id: "guild", kind: "setup", label: "Join an active guild", note: "They fill in the first hours." },
       { id: "creation-gift", kind: "setup", label: "Claim the creation gift" },
-      { id: "events", kind: "setup", label: "Start every event on the Paladin", note: "Pass, Item Burning, Mystic Seal and Beyond Burning are once per account." },
+      { id: "events", kind: "setup", label: "Start every event on this character", note: "Pass, Item Burning, Mystic Seal and Beyond Burning are once per account." },
       { id: "day0-weeklies", kind: "clear", label: "Weekly bosses before Thursday 00:00 UTC", note: "Launch day gets a free round before the first reset." },
     ],
   },
@@ -96,8 +101,7 @@ export const PLAN = [
     steps: [
       { id: "burn-rewards", kind: "setup", label: "Claim Hyper Burning rewards", note: "Hold symbol selectors until each region's story is done." },
       { id: "pass", kind: "setup", label: "Lv 101: join the Challenger Pass" },
-      { id: "hypers", kind: "build", label: "Lv 140: Hyper Skills", note: "Blast Extra Strike, Blast Reinforce, Heaven's Hammer Cooldown Cutter, Extra Strike, Reinforce." },
-      { id: "inner-ability", kind: "build", label: "Inner Ability: Attack Speed +1, Boss 10%" },
+      { id: "inner-ability", paladin: true, kind: "build", label: "Inner Ability: Attack Speed +1, Boss 10%, Abnormal Status 8%", note: "Roll lines 2–3 first, lock them, then line 1." },
     ],
   },
   {
@@ -108,8 +112,11 @@ export const PLAN = [
     steps: [
       { id: "hyper-blink", kind: "level", label: "Hyper Blink to 260", note: "Pop a 3x coupon first." },
       { id: "greater-power", kind: "setup", label: "5th job and \"A Greater Power\"" },
-      { id: "v-node1", kind: "build", label: "Boost Node 1 (Blast + Divine Judgment) to Lv 40" },
-      { id: "v-jobnodes", kind: "build", label: "Job nodes to Lv 25: Divine Echo, Grand Guardian, Hammers, Mjolnir" },
+      { id: "v-node1", paladin: true, kind: "build", icons: ["blast", "divine-judgment"], label: "Boost Node 1 to Lv 40", note: "Blast and Divine Judgment. Lv 40 unlocks HEXA Mastery 1." },
+      { id: "v-jobnodes", paladin: true, kind: "build", icons: ["divine-echo", "grand-guardian", "hammers", "mjolnir"], label: "Job nodes to Lv 25, Divine Echo first" },
+      { id: "v-decents", kind: "build", icons: ["decent-holy-symbol", "decent-speed-infusion", "decent-sharp-eyes"], label: "Decent Holy Symbol, Speed Infusion, Sharp Eyes", note: "Lv 1 is enough." },
+      { id: "v-utility", kind: "build", icons: ["blink", "rope-lift", "erda-will"], label: "Blink, Rope Lift, Will of Erda at Lv 1" },
+      { id: "as10", paladin: true, kind: "build", icons: ["decent-speed-infusion"], label: "Attack Speed 10", note: "Inner Ability +1, Decent Speed Infusion and an Extreme Green Potion." },
       { id: "tier1", kind: "clear", label: "Free bosses through Normal Lotus and Damien" },
       { id: "f-arc360", kind: "force", label: "ARC 360", unlocks: "Lucid" },
       { id: "s4-ib2", kind: "clear", label: "Easy Lucid" },
@@ -128,9 +135,11 @@ export const PLAN = [
     ordered: true,
     steps: [
       { id: "beyond-burning", kind: "level", label: "Turn on Beyond Burning" },
-      { id: "sol-janus", kind: "build", label: "Sol Janus Support on the Paladin", note: "Use Dawn. No fragments on Janus." },
+      { id: "sol-janus", kind: "build", icons: ["sol-janus-dawn"], label: "Sol Janus Support on this character", note: "Use Dawn. No fragments on Janus." },
+      { id: "pal-training", paladin: true, kind: "setup", icons: ["divine-charge", "hammers", "mjolnir", "heavens-hammer"], label: "Train with Hammers up, Mjolnir while they're down", note: "Divine Charge between; Heaven's Hammer and Erda Fountain off cooldown." },
       { id: "rank-bronze", kind: "rank", label: "Bronze, Silver", note: "Take Continuous from the Bronze ring voucher." },
-      { id: "hexa-unlock", kind: "build", label: "HEXA: unlock all Masteries and boosts to Lv 1" },
+      { id: "hexa-unlock", paladin: false, kind: "build", label: "HEXA: unlock all Masteries and boosts to Lv 1" },
+      { id: "hexa-path", paladin: true, kind: "build", icons: ["sacred-bastion"], label: "HEXA: follow the order below" },
       { id: "c-kai", kind: "clear", label: "Kai" },
       { id: "farm-setup", kind: "gear", label: "Farming setup (Gear tab)" },
       { id: "c-darknell-n", kind: "clear", label: "Normal Darknell" },
@@ -144,7 +153,6 @@ export const PLAN = [
       { id: "c-slime-chaos", kind: "clear", label: "Chaos Slime" },
       { id: "c-gloom-test", kind: "test", label: "Chaos Gloom: from 50% in under 7.5 min" },
       { id: "c-gloom", kind: "clear", label: "Chaos Gloom" },
-      { id: "hexa-m1", kind: "build", label: "HEXA: Mastery 1 to 9, Mastery 3 to 10, Mastery 1 to 20" },
       { id: "c-kalos-path", kind: "clear", label: "Hard Verus Hilla" },
       { id: "c-darknell-test", kind: "test", label: "Hard Darknell: from 50% in under 7.5 min" },
       { id: "c-darknell", kind: "clear", label: "Hard Darknell" },
@@ -161,6 +169,26 @@ export const PLAN = [
       { id: "f-sac220", kind: "force", label: "SAC 220", unlocks: "Easy Adversary" },
       { id: "ib-8", kind: "clear", label: "Easy First Adversary" },
     ],
+  },
+  {
+    id: "hexa",
+    title: "HEXA order",
+    paladin: true,
+    lead: true,
+    levels: [260, 301],
+    ordered: true,
+    steps: [
+      { id: "hx-origin", icons: ["sacred-bastion"], label: "Sacred Bastion", target: "Lv 1", note: "Comes with 6th job." },
+      { id: "hx-m1", icons: ["hexa-blast"], label: "Mastery 1: Blast, Divine Judgment", target: "Lv 1" },
+      { id: "hx-m2", icons: ["hexa-divine-charge"], label: "Mastery 2: Divine Charge, Divine Mark, Falling Justice", target: "Lv 1", note: "Needs Boost Node 2 at Lv 40." },
+      { id: "hx-m3", icons: ["hexa-heavens-hammer"], label: "Mastery 3: Heaven's Hammer", target: "Lv 1", note: "Needs Boost Node 3 at Lv 40. Cast it off cooldown from now on." },
+      { id: "hx-m4", icons: ["hexa-final-attack"], label: "Mastery 4: Final Attack, Rising Justice", target: "Lv 1", note: "Needs Boost Node 4 at Lv 40." },
+      { id: "hx-boosts", icons: ["divine-echo", "hammers", "grand-guardian", "mjolnir"], label: "Boosts: Divine Echo, Hammers, Grand Guardian, Mjolnir", target: "Lv 1", note: "Each needs its 5th job skill at Lv 25." },
+      { id: "hx-m1-9", icons: ["hexa-blast"], label: "Mastery 1", target: "Lv 9" },
+      { id: "hx-m3-10", icons: ["hexa-heavens-hammer"], label: "Mastery 3", target: "Lv 10" },
+      { id: "hx-m1-20", icons: ["hexa-blast"], label: "Mastery 1", target: "Lv 20" },
+    ],
+    link: { label: "Then the Paladin HEXA calculator", href: "https://docs.google.com/spreadsheets/d/1UXdvFBgog9C5pauyjYNhTcKuZ9LVOA98tHB-C9GD4UU/" },
   },
   {
     id: "endgame",
@@ -197,11 +225,16 @@ export const PLAN = [
       { id: "f-whisper", label: "Save Whisper Crystals for the Genesis Badge" },
       { id: "f-doping", label: "Bossing buffs: Guild Blessing, VIP, MVP" },
       { id: "f-claim", label: "Claim tier rewards before Feb 9" },
+      { id: "l-links", label: "Link alts", note: "Links can't come from other worlds. Evan's comes with the world passive.", chips: [
+        { icon: "link-ds", label: "Demon Slayer", note: "Boss" },
+        { icon: "link-da", label: "Demon Avenger", note: "Damage" },
+        { icon: "link-ark", label: "Ark", note: "Damage" },
+        { icon: "link-ab", label: "Angelic Buster", note: "Burst damage" },
+      ] },
     ],
     later: {
       title: "Later, if there's time",
       steps: [
-        { id: "l-links", label: "Link alts: Angelic Buster, Demon Slayer, Demon Avenger, Ark" },
         { id: "l-genesis", label: "Genesis Pass", note: "NX only. Skip PLUS on Heroic." },
         { id: "l-masteria", label: "Masteria's Summoner title (Chaos Vellum on Lethe)" },
       ],
@@ -218,7 +251,7 @@ export const GEAR = [
     steps: [
       { id: "gs-acc", label: "Burning Boss Accessory Box (Lv 200)" },
       { id: "gs-pendant", label: "Selector: Dominator Pendant, not the weapon" },
-      { id: "gs-rings", label: "Skill rings: Continuous (Bronze), Restraint (Silver)" },
+      { id: "gs-rings", label: "Skill rings: Continuous (Bronze), Restraint (Silver)", pal: "Stand still in Restraint for Grand Guardian." },
       { id: "gs-title", label: "Wear a real title", note: "Event titles give no stats now." },
       { id: "gs-ib", label: "Equip the Item Burning set at 200" },
       { id: "gs-secondary", label: "Cube the Frozen Secondary: Boss% + ATT%", note: "Don't wait for Pitched." },
@@ -264,7 +297,7 @@ export const GEAR = [
       { id: "gx-heart", label: "Heart: Fairy (Gold) → Plasma (Diamond)" },
       { id: "gx-glove", label: "Shoes, gloves, cape: Arcane + Memento 18★ scrolls", note: "From Master." },
       { id: "gx-armor", label: "Hat, top, bottom, shoulder: Eternal 18★" },
-      { id: "gx-weapon", label: "Weapon: Genesis (two-handed blunt)", note: "Leave the Challenger weapon until then." },
+      { id: "gx-weapon", label: "Weapon: Genesis", pal: "Two-handed blunt.", note: "Leave the Challenger weapon until then." },
     ],
   },
   {
@@ -289,6 +322,41 @@ export const GEAR = [
 // Crests, Item Burning stage, drop. Numbers we don't have are left out.
 const b = (id, label, ...meta) => ({ id, label, note: meta.join(" · ") || undefined });
 export const BOSSES = [
+  {
+    id: "burst",
+    title: "Burst · every 2 min",
+    paladin: true,
+    view: "rotation",
+    phases: [
+      { label: "Stack", keys: [{ icon: "vessel", name: "Blast to 5 Vessel of Light" }] },
+      { label: "Buff", keys: [{ icon: "weapon-aura", name: "Weapon Aura" }, { icon: "goddess", name: "Goddess's Blessing" }, { icon: "epic-adventure", name: "Epic Adventure" }] },
+      { label: "Echo", keys: [{ icon: "divine-echo", name: "Divine Echo" }, { icon: "divine-blessing", name: "Divine Blessing" }] },
+      { label: "Open", keys: [{ icon: "mjolnir", name: "Mjolnir", tag: "×3" }, { name: "Skill ring", text: "Ring" }, { icon: "link-ab", name: "Terms and Conditions" }] },
+      { label: "Burst", keys: [{ icon: "sacred-bastion", name: "Sacred Bastion", tag: "6 min" }, { icon: "grand-guardian", name: "Grand Guardian", tag: "hold" }] },
+      { label: "Then", keys: [{ icon: "blast", name: "Blast until Echo ends" }] },
+    ],
+    aside: [
+      { icon: "hammers", name: "Hammers of the Righteous", note: "off cooldown, outside the burst" },
+      { icon: "heavens-hammer", name: "Heaven's Hammer", note: "off cooldown" },
+      { icon: "smite-shield", name: "Smite Shield", note: "bind after Grand Guardian; before it on Lotus, Damien, Darknell" },
+    ],
+  },
+  {
+    id: "kit",
+    title: "Staying alive",
+    paladin: true,
+    lead: true,
+    ref: true,
+    steps: [
+      { id: "k-sacro", icons: ["sacrosanctity"], label: "Sacrosanctity: 30s invincible", note: "Recast to end it early; each 5s left takes 45s off the 5 min cooldown." },
+      { id: "k-gg", icons: ["grand-guardian"], label: "Grand Guardian held: half damage, no stun or knockback" },
+      { id: "k-kb", icons: ["heavens-hammer", "rush", "impenetrable-skin"], label: "Heaven's Hammer, Rush, Impenetrable Skin: no super knockback" },
+      { id: "k-shield", icons: ["divine-shield"], label: "Divine Shield: blocks the next 10 hits" },
+      { id: "k-blitz", icons: ["blitz-shield"], label: "Blitz Shield: a 20% HP barrier for one big hit" },
+      { id: "k-will", icons: ["erda-will", "heros-will"], label: "Will of Erda, Hero's Will: clear a status" },
+      { id: "k-comeback", label: "Comeback II node for long fights", note: "Dying takes 30% off cooldowns, Sacrosanctity too." },
+    ],
+  },
   {
     id: "tier1",
     title: "Tier 1 · Free",
@@ -365,3 +433,24 @@ export const BOSSES = [
     },
   },
 ];
+
+
+// Paladin notes on boss rows, from the Paladin guide's mechanics sections.
+const PAL_BOSS = {
+  "b-lotus-h": "Heaven's Hammer through the push. Divine Shield takes the phase 3 purple balls.",
+  "b-damien-h": "Heaven's Hammer through the push; it doesn't stop the brand.",
+  "b-lucid-h": "Divine Shield takes the bombs.",
+  "b-will-h": "Divine Shield takes the phase 1 tests. Comeback II for phase 3.",
+  "b-gloom-c": "Sacred Bastion binds it.",
+  "b-darknell-h": "Blitz Shield for Ultimate Sword Technique. Heaven's Hammer through the swipe.",
+  "b-bm-h": "Will of Erda before curses. Sacred Bastion binds it. Comeback II.",
+  "b-seren-n": "Comeback II.",
+  "b-seren-h": "Comeback II.",
+  "b-kalos-e": "Comeback II.",
+  "b-kaling-e": "Sacred Bastion binds it.",
+};
+for (const section of BOSSES) {
+  for (const step of [...(section.steps ?? []), ...(section.later?.steps ?? [])]) {
+    if (PAL_BOSS[step.id]) step.pal = PAL_BOSS[step.id];
+  }
+}
