@@ -19,9 +19,11 @@ A daily sheet and progression plan for MapleStory's Challenger World
   are in `docs/bosses.md`.
 - **Gear:** starting gear, Item Burning, then a slot-by-slot path out of it
   with when to switch, plus a farming setup (familiars, drop gear).
-- **Paladin:** build, HEXA, burst order, skill rings, survival and links from the
-  community Paladin guide (`docs/paladin.md`). The Paladin checkbox in the header
-  hides this tab and the Paladin-only Plan rows for another class.
+- **Paladin checkbox** (header, on by default): adds Paladin rows from the
+  community Paladin guide (`docs/paladin.md`): 5th job nodes and a HEXA order in
+  Plan, the burst and defensive skills on Bosses, per-boss Paladin notes, and
+  weapon and ring notes in Gear. Off, the sheet is class-neutral. Skill icons
+  are in `web/icons/`, from maplestorywiki.net.
 
 Content is in `web/data.js`, with sources in `docs/v272.md` (patch notes) and
 `docs/guides.md` (community guidance) and `docs/paladin.md` (Paladin guide). Fix the data, not the code, when the

@@ -2,7 +2,7 @@
 // Plan (one-off progression steps). Content lives in data.js; this file only
 // renders it. Check-offs are stored locally and synced through /api/sync.
 
-import { BOSSES, GEAR, PALADIN, PLAN, SEASON, TODAY } from "./data.js";
+import { BOSSES, GEAR, PLAN, SEASON, TODAY } from "./data.js";
 import { merge } from "./merge.js";
 import { countdown, nextReset, periodKey } from "./time.js";
 
@@ -69,12 +69,11 @@ function paladin() {
 }
 function setPaladin(on) {
   state.settings = { ...state.settings, paladin: on, at: Date.now() };
-  if (!on && tab === "paladin") tab = "plan";
   commit();
 }
-/** Rows marked `paladin: true` only show with the Paladin toggle on. */
+/** `paladin: true` rows show only for Paladin, `paladin: false` only for other classes. */
 function forClass(item) {
-  return !item.paladin || paladin();
+  return item.paladin === undefined || item.paladin === paladin();
 }
 
 function commit() {
@@ -125,6 +124,14 @@ function h(tag, attrs = {}, ...children) {
   }
   for (const c of children.flat()) if (c != null && c !== false) el.append(c.nodeType ? c : String(c));
   return el;
+}
+
+/** Skill icons are 32px pixel art; they're decorative, the label names the skill. */
+function icon(key, title) {
+  return h("img", { class: "ic", src: `icons/${key}.png`, alt: "", width: 32, height: 32, title, loading: "lazy" });
+}
+function iconSet(keys) {
+  return keys?.length ? h("span", { class: keys.length > 1 ? "ics multi" : "ics" }, keys.map((k) => icon(k))) : null;
 }
 
 const localFmt = new Intl.DateTimeFormat(undefined, { weekday: "short", hour: "numeric", minute: "2-digit" });
@@ -214,30 +221,54 @@ function stepRow(step) {
   return h("li", { class: done ? "row done" : "row" },
     h("label", {},
       h("input", { type: "checkbox", checked: done, onchange: (e) => setDone(item, e.target.checked) }),
+      iconSet(step.icons),
       h("span", { class: "what" },
-        h("span", { class: "label" }, step.kind && h("span", { class: `kind kind-${step.kind}` }, KIND[step.kind]), step.label),
+        h("span", { class: "label" }, step.kind && h("span", { class: `kind kind-${step.kind}` }, KIND[step.kind]), step.label,
+          step.target && h("span", { class: "target" }, step.target)),
         step.unlocks && h("span", { class: "unlocks" }, `Full damage: ${step.unlocks}`),
         step.when && h("span", { class: "unlocks" }, `Switch when: ${step.when}`),
-        step.note && h("span", { class: "note" }, step.note))));
+        step.note && h("span", { class: "note" }, step.note),
+        step.pal && paladin() && h("span", { class: "note pal" }, step.pal),
+        step.chips && h("span", { class: "chips" }, step.chips.map((c) =>
+          h("span", { class: "chip" }, icon(c.icon), h("span", {}, h("b", {}, c.label), c.note && h("small", {}, c.note))))))));
 }
 
 // A reference row: text to read, not a step to check.
 function refRow(step) {
   return h("li", { class: "row ref" },
+    iconSet(step.icons) ?? h("span", { class: "ics blank" }),
     h("span", { class: "what" },
       h("span", { class: "label" }, step.href ? h("a", { href: step.href, target: "_blank", rel: "noopener" }, step.label) : step.label),
       step.note && h("span", { class: "note" }, step.note)));
 }
 
 function refSection(section) {
-  return h("section", { class: "card" },
+  return h("section", { class: section.lead ? "card lead" : "card" },
     h("details", { class: "fold", open: section.open }, h("summary", {}, h("header", {}, h("h2", {}, section.title))),
       section.intro && h("p", { class: "hint" }, section.intro),
       h(section.ordered ? "ol" : "ul", { class: "rows" }, section.steps.map(refRow))));
 }
 
+// The burst, drawn as the keys you press: phases left to right, each a run of
+// skill icons, with what runs off cooldown set apart underneath.
+function key(k) {
+  return h("span", { class: "key", title: k.name },
+    h("span", { class: "cap" }, k.icon ? icon(k.icon) : h("span", { class: "cap-text" }, k.text), k.tag && h("span", { class: "tag-k" }, k.tag)),
+    h("span", { class: "key-name" }, k.name));
+}
+
+function rotationSection(section) {
+  return h("section", { class: "card rotation" },
+    h("header", {}, h("h2", {}, section.title)),
+    h("ol", { class: "phases" }, section.phases.map((p) =>
+      h("li", { class: "phase" }, h("span", { class: "phase-label" }, p.label), h("span", { class: "keys" }, p.keys.map(key))))),
+    section.aside && h("ul", { class: "aside" }, section.aside.map((a) =>
+      h("li", {}, icon(a.icon), h("span", {}, h("b", {}, a.name), " ", a.note)))));
+}
+
 function planSection(section) {
-  if (section.paladin && !paladin()) return null;
+  if (!forClass(section)) return null;
+  if (section.view === "rotation") return rotationSection(section);
   if (section.ref) return refSection(section);
   section = { ...section, steps: section.steps.filter(forClass), later: section.later && { ...section.later, steps: section.later.steps.filter(forClass) } };
   if (section.later && !section.later.steps.length) section.later = undefined;
@@ -249,6 +280,7 @@ function planSection(section) {
     section.intro && h("p", { class: "hint" }, section.intro),
     h(section.ordered ? "ol" : "ul", { class: "rows" }, section.steps.map(stepRow)),
     section.later && h("details", { class: "more" }, h("summary", {}, section.later.title), h("ul", { class: "rows" }, section.later.steps.map(stepRow))),
+    section.link && h("p", { class: "section-link" }, h("a", { href: section.link.href, target: "_blank", rel: "noopener" }, section.link.label, " ↗")),
   ];
   const header = h("header", {}, h("h2", {}, section.title, current && h("span", { class: "tag now" }, "you are here")),
     h("span", { class: done === section.steps.length ? "count all" : "count" }, `${done}/${section.steps.length}`));
@@ -258,7 +290,8 @@ function planSection(section) {
   if (elsewhere || done === section.steps.length) {
     return h("section", { class: "card" }, h("details", { class: "fold" }, h("summary", {}, header), body));
   }
-  return h("section", { class: current ? "card current" : "card" }, header, body);
+  const cls = ["card", current && "current", section.lead && "lead"].filter(Boolean).join(" ");
+  return h("section", { class: cls }, header, body);
 }
 
 function plan() {
@@ -273,9 +306,7 @@ function bosses() {
   return BOSSES.map(planSection);
 }
 
-function paladinTab() {
-  return [h("p", { class: "hint" }, "From The Comprehensive Guide to Paladin (Sep 2025). Pre-Challenger numbers; check skill text in game."), ...PALADIN.map(planSection)];
-}
+
 
 // ---------- page ----------
 
@@ -292,7 +323,6 @@ function levelInput() {
 
 function tabs() {
   const list = [["today", "Today"], ["plan", "Plan"], ["bosses", "Bosses"], ["gear", "Gear"]];
-  if (paladin()) list.push(["paladin", "Paladin"]);
   return h("nav", { class: "tabs" },
     list.map(([id, label]) =>
       h("button", { class: tab === id ? "on" : "", "aria-pressed": tab === id, onclick: () => { tab = id; save(TAB_KEY, tab); render(); } }, label)),
@@ -300,7 +330,7 @@ function tabs() {
 }
 
 function classToggle() {
-  return h("label", { class: "class-toggle", title: "Show Paladin-specific rows and the Paladin tab" },
+  return h("label", { class: "class-toggle", title: "Show Paladin skills, HEXA order and burst" },
     h("input", { type: "checkbox", checked: paladin(), onchange: (e) => setPaladin(e.target.checked) }), "Paladin");
 }
 
@@ -312,7 +342,8 @@ function syncFooter() {
       try { await navigator.clipboard.writeText(link); syncStatus = "link copied: open it on your other device"; } catch { prompt("Open this on your other device", link); }
       renderSync();
     } }, "Copy sync link"),
-    h("span", {}, SEASON.source));
+    h("span", {}, SEASON.source),
+    paladin() && h("a", { href: "https://docs.google.com/document/d/1aAQV9QGR4UywDGhQq1O3X7blXADPGDMvgDIAKfCmrH8/mobilebasic", target: "_blank", rel: "noopener" }, "Paladin guide"));
 }
 
 function renderSync() {
@@ -322,8 +353,7 @@ function renderSync() {
 
 function render() {
   const now = Date.now();
-  if (tab === "paladin" && !paladin()) tab = "plan";
-  const page = tab === "plan" ? plan() : tab === "bosses" ? bosses() : tab === "gear" ? gear() : tab === "paladin" ? paladinTab() : today(now);
+  const page = tab === "plan" ? plan() : tab === "bosses" ? bosses() : tab === "gear" ? gear() : today(now);
   brand.replaceChildren("Challenger ", h("small", {}, "Heroic"), classToggle());
   app.replaceChildren(tabs(), ...page, syncFooter());
 }

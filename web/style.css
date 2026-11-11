@@ -79,10 +79,59 @@ ol.rows > .row .label::before { content: counter(step) ". "; color: var(--muted)
 .tag { display: inline-block; font-size: 11px; font-weight: 600; color: var(--muted); border: 1px solid var(--line); border-radius: 999px; padding: 0 7px; margin-left: 6px; vertical-align: 1px; }
 .tag.now { color: var(--accent); border-color: var(--accent); }
 
-.row.ref { padding: 7px 0; border-top: 1px solid var(--line); }
+.row.ref { display: flex; gap: 10px; align-items: flex-start; padding: 7px 0; border-top: 1px solid var(--line); }
 .rows > .row.ref:first-child { border-top: 0; }
 .row.ref a { color: var(--accent); }
 ol.rows > .row.ref { padding-left: 0; }
+
+/* Skill icons: 32px pixel art, drawn at whole-pixel scale. */
+.ic { width: 32px; height: 32px; image-rendering: pixelated; flex: none; display: block; }
+.ics { display: flex; gap: 2px; flex: none; }
+/* Icons trail the text so labels line up; in a .lead section they lead it. */
+.row label > .ics { order: 9; margin: -4px 0 -4px auto; }
+.row.ref > .ics { order: 9; margin-left: auto; }
+.lead .row label > .ics { order: 0; margin: -4px 0 -4px 0; }
+.ics.blank { display: none; }
+.lead .row.ref > .ics { order: 0; margin-left: 0; }
+.lead .ics.blank { display: block; width: 32px; }
+.lead .row.ref > .ics.multi { grid-template-columns: repeat(2, 16px); }
+.lead .ics.multi { display: grid; grid-template-columns: 16px 16px; gap: 0; width: 32px; }
+.lead .ics.multi .ic { width: 16px; height: 16px; }
+.target { font-family: var(--mono); font-size: 12px; font-weight: 700; color: var(--accent); border: 1px solid currentColor; border-radius: 4px; padding: 0 5px; margin-left: 8px; vertical-align: 1px; white-space: nowrap; }
+.row.done .target { color: var(--muted); }
+.note.pal::before { content: "Paladin · "; font-weight: 700; color: var(--accent); }
+.row.done .note.pal { display: none; }
+
+.chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
+.chip { display: inline-flex; align-items: center; gap: 7px; padding: 3px 10px 3px 4px; border: 1px solid var(--line); border-radius: 8px; background: var(--bg); }
+.chip > span { display: flex; flex-direction: column; line-height: 1.2; }
+.chip b { font-size: 13px; }
+.chip small { font-size: 12px; color: var(--muted); }
+.row.done .chips { display: none; }
+
+.section-link { margin: 8px 0 0; font-size: 13px; font-weight: 600; }
+.section-link a, .foot a { color: var(--accent); }
+
+/* The burst: phases left to right, each a run of keys. */
+.phases { list-style: none; margin: 10px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 14px 0; }
+.phase { display: flex; flex-direction: column; gap: 6px; }
+.phase + .phase { padding-left: 22px; position: relative; }
+.phase + .phase::before { content: "→"; position: absolute; left: 4px; top: 30px; color: var(--muted); font-size: 14px; }
+.phase-label { font-size: 11px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+.keys { display: flex; gap: 6px; }
+.key { display: flex; flex-direction: column; align-items: center; gap: 4px; width: 62px; }
+.cap { position: relative; width: 48px; height: 48px; display: grid; place-items: center; background: var(--bg); border: 1px solid var(--line); border-bottom-width: 3px; border-radius: 9px; }
+.cap-text { font-size: 12px; font-weight: 700; color: var(--muted); }
+.tag-k { position: absolute; right: -6px; top: -7px; font-size: 10px; font-weight: 700; font-family: var(--mono); background: var(--accent); color: var(--panel); border-radius: 999px; padding: 0 5px; line-height: 15px; white-space: nowrap; }
+.key-name { font-size: 11px; line-height: 1.2; text-align: center; color: var(--ink); }
+.aside { list-style: none; margin: 14px 0 0; padding: 10px 0 0; border-top: 1px dashed var(--line); display: grid; gap: 6px; }
+.aside li { display: flex; gap: 10px; align-items: center; font-size: 13px; color: var(--muted); }
+.aside b { color: var(--ink); font-weight: 600; }
+@media (max-width: 420px) {
+  .phase + .phase { padding-left: 0; }
+  .phase + .phase::before { display: none; }
+  .phases { gap: 12px 16px; }
+}
 
 .more { margin-top: 8px; }
 .more summary { cursor: pointer; color: var(--muted); font-size: 13px; font-weight: 600; }
