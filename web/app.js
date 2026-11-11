@@ -2,7 +2,7 @@
 // Plan (one-off progression steps). Content lives in data.js; this file only
 // renders it. Check-offs are stored locally and synced through /api/sync.
 
-import { BOSSES, GEAR, PLAN, SEASON, TODAY } from "./data.js";
+import { BOSSES, GEAR, PALADIN, PLAN, SEASON, TODAY } from "./data.js";
 import { merge } from "./merge.js";
 import { countdown, nextReset, periodKey } from "./time.js";
 
@@ -11,6 +11,7 @@ const SYNC_KEY = "challenger.sync";
 const TAB_KEY = "challenger.tab";
 const app = document.getElementById("app");
 const clock = document.getElementById("clock");
+const brand = document.getElementById("brand");
 
 // ---------- state ----------
 
@@ -60,8 +61,20 @@ function level() {
   return state.settings.level;
 }
 function setLevel(v) {
-  state.settings = { level: v, at: Date.now() };
+  state.settings = { ...state.settings, level: v, at: Date.now() };
   commit();
+}
+function paladin() {
+  return state.settings.paladin !== false;
+}
+function setPaladin(on) {
+  state.settings = { ...state.settings, paladin: on, at: Date.now() };
+  if (!on && tab === "paladin") tab = "plan";
+  commit();
+}
+/** Rows marked `paladin: true` only show with the Paladin toggle on. */
+function forClass(item) {
+  return !item.paladin || paladin();
 }
 
 function commit() {
@@ -169,7 +182,7 @@ function checkRow(item, now) {
 }
 
 function checklist(section, now) {
-  const items = section.items.filter((i) => available(i, now) && !outgrown(i));
+  const items = section.items.filter((i) => available(i, now) && !outgrown(i) && forClass(i));
   const open = items.filter(unlocked);
   const later = items.filter((i) => !unlocked(i));
   const done = open.filter((i) => isDone(i, now)).length;
@@ -208,7 +221,27 @@ function stepRow(step) {
         step.note && h("span", { class: "note" }, step.note))));
 }
 
+// A reference row: text to read, not a step to check.
+function refRow(step) {
+  return h("li", { class: "row ref" },
+    h("span", { class: "what" },
+      h("span", { class: "label" }, step.href ? h("a", { href: step.href, target: "_blank", rel: "noopener" }, step.label) : step.label),
+      step.note && h("span", { class: "note" }, step.note)));
+}
+
+function refSection(section) {
+  return h("section", { class: "card" },
+    h("details", { class: "fold", open: section.open }, h("summary", {}, h("header", {}, h("h2", {}, section.title))),
+      section.intro && h("p", { class: "hint" }, section.intro),
+      h(section.ordered ? "ol" : "ul", { class: "rows" }, section.steps.map(refRow))));
+}
+
 function planSection(section) {
+  if (section.paladin && !paladin()) return null;
+  if (section.ref) return refSection(section);
+  section = { ...section, steps: section.steps.filter(forClass), later: section.later && { ...section.later, steps: section.later.steps.filter(forClass) } };
+  if (section.later && !section.later.steps.length) section.later = undefined;
+  if (!section.steps.length) return null;
   const lv = level();
   const current = section.levels && lv != null && lv >= section.levels[0] && lv < section.levels[1];
   const done = section.steps.filter((s) => isDone({ ...s, cadence: "once" })).length;
@@ -240,6 +273,10 @@ function bosses() {
   return BOSSES.map(planSection);
 }
 
+function paladinTab() {
+  return [h("p", { class: "hint" }, "From The Comprehensive Guide to Paladin (Sep 2025). Pre-Challenger numbers; check skill text in game."), ...PALADIN.map(planSection)];
+}
+
 // ---------- page ----------
 
 function levelInput() {
@@ -254,10 +291,17 @@ function levelInput() {
 }
 
 function tabs() {
+  const list = [["today", "Today"], ["plan", "Plan"], ["bosses", "Bosses"], ["gear", "Gear"]];
+  if (paladin()) list.push(["paladin", "Paladin"]);
   return h("nav", { class: "tabs" },
-    [["today", "Today"], ["plan", "Plan"], ["bosses", "Bosses"], ["gear", "Gear"]].map(([id, label]) =>
+    list.map(([id, label]) =>
       h("button", { class: tab === id ? "on" : "", "aria-pressed": tab === id, onclick: () => { tab = id; save(TAB_KEY, tab); render(); } }, label)),
     levelInput());
+}
+
+function classToggle() {
+  return h("label", { class: "class-toggle", title: "Show Paladin-specific rows and the Paladin tab" },
+    h("input", { type: "checkbox", checked: paladin(), onchange: (e) => setPaladin(e.target.checked) }), "Paladin");
 }
 
 function syncFooter() {
@@ -278,7 +322,9 @@ function renderSync() {
 
 function render() {
   const now = Date.now();
-  const page = tab === "plan" ? plan() : tab === "bosses" ? bosses() : tab === "gear" ? gear() : today(now);
+  if (tab === "paladin" && !paladin()) tab = "plan";
+  const page = tab === "plan" ? plan() : tab === "bosses" ? bosses() : tab === "gear" ? gear() : tab === "paladin" ? paladinTab() : today(now);
+  brand.replaceChildren("Challenger ", h("small", {}, "Heroic"), classToggle());
   app.replaceChildren(tabs(), ...page, syncFooter());
 }
 

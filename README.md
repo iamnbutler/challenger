@@ -19,9 +19,12 @@ A daily sheet and progression plan for MapleStory's Challenger World
   are in `docs/bosses.md`.
 - **Gear:** starting gear, Item Burning, then a slot-by-slot path out of it
   with when to switch, plus a farming setup (familiars, drop gear).
+- **Paladin:** build, HEXA, burst order, skill rings, survival and links from the
+  community Paladin guide (`docs/paladin.md`). The Paladin checkbox in the header
+  hides this tab and the Paladin-only Plan rows for another class.
 
 Content is in `web/data.js`, with sources in `docs/v272.md` (patch notes) and
-`docs/guides.md` (community guidance). Fix the data, not the code, when the
+`docs/guides.md` (community guidance) and `docs/paladin.md` (Paladin guide). Fix the data, not the code, when the
 live notes differ.
 
 Check-offs save on the device and sync through the Worker: "Copy sync link"

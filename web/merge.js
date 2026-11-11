@@ -1,13 +1,13 @@
 // Sync state and its merge, shared by the page and the Worker.
 //
-// State is { checks: { "<item>@<period>": { done, at } }, settings: { level, at } }.
+// State is { checks: { "<item>@<period>": { done, at } }, settings: { level, paladin, at } }.
 // A check-off is keyed by the reset period it was made in, so a new period
 // starts unchecked without anyone clearing anything. Merging keeps, per key,
 // the entry with the later `at`; it is commutative, so devices converge.
 
 const KEEP_MS = 45 * 86_400_000;
 
-/** @typedef {{ checks: Record<string, { done: boolean, at: number }>, settings: { level: number | null, at: number } }} State */
+/** @typedef {{ checks: Record<string, { done: boolean, at: number }>, settings: { level: number | null, paladin: boolean, at: number } }} State */
 
 /** @param {State | undefined} a @param {State | undefined} b @returns {State} */
 export function merge(a, b, now = Date.now()) {
@@ -21,11 +21,12 @@ export function merge(a, b, now = Date.now()) {
       if (!checks[key] || v.at > checks[key].at) checks[key] = { done: v.done, at: v.at };
     }
   }
-  let settings = { level: null, at: 0 };
+  // paladin defaults to on: the sheet was Paladin-only before the toggle.
+  let settings = { level: null, paladin: true, at: 0 };
   for (const s of [a?.settings, b?.settings]) {
     if (s && typeof s.at === "number" && s.at > settings.at) {
       const level = Number.isInteger(s.level) && s.level >= 1 && s.level <= 300 ? s.level : null;
-      settings = { level, at: s.at };
+      settings = { level, paladin: s.paladin !== false, at: s.at };
     }
   }
   return { checks, settings };

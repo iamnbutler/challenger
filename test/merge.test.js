@@ -22,3 +22,12 @@ test("junk is dropped, not stored", () => {
   expect(s.checks).toEqual({});
   expect(s.settings.level).toBe(null);
 });
+
+test("paladin toggle syncs last-write-wins and defaults on", () => {
+  const now = Date.now();
+  expect(merge(undefined, undefined, now).settings.paladin).toBe(true);
+  expect(merge({ checks: {}, settings: { level: 200, at: 1 } }, undefined, now).settings.paladin).toBe(true);
+  const off = { checks: {}, settings: { level: 200, paladin: false, at: 9 } };
+  const on = { checks: {}, settings: { level: 200, paladin: true, at: 5 } };
+  expect(merge(on, off, now).settings.paladin).toBe(false);
+});

@@ -8,6 +8,8 @@
 //   from/until: UTC instants; outside them the row is hidden.
 // Plan sections: { id, title, intro?, levels?: [min, max), ordered?, steps, later? }
 //   A step is { id, label, note? }, checked once and never reset.
+// `paladin: true` on a row or section shows it only with the Paladin toggle on.
+// Sections with `ref: true` are reading, not check-offs; a ref row may have `href`.
 
 export const SEASON = {
   start: "2026-11-11T00:00:00Z", // the live server opens after maintenance that day
@@ -80,11 +82,11 @@ export const PLAN = [
     title: "Day 1 · Nov 11, after maintenance",
     ordered: true,
     steps: [
-      { id: "pick-heroic", kind: "setup", label: "Make the Paladin in Challenger-Heroic" },
+      { id: "pick-heroic", kind: "setup", label: "Make the character in Challenger-Heroic" },
       { id: "hyper-burning", kind: "setup", label: "Hyper Burning MAX; not a Quanah leap character", note: "A leap character can't take Beyond Burning." },
       { id: "guild", kind: "setup", label: "Join an active guild", note: "They fill in the first hours." },
       { id: "creation-gift", kind: "setup", label: "Claim the creation gift" },
-      { id: "events", kind: "setup", label: "Start every event on the Paladin", note: "Pass, Item Burning, Mystic Seal and Beyond Burning are once per account." },
+      { id: "events", kind: "setup", label: "Start every event on this character", note: "Pass, Item Burning, Mystic Seal and Beyond Burning are once per account." },
       { id: "day0-weeklies", kind: "clear", label: "Weekly bosses before Thursday 00:00 UTC", note: "Launch day gets a free round before the first reset." },
     ],
   },
@@ -96,8 +98,8 @@ export const PLAN = [
     steps: [
       { id: "burn-rewards", kind: "setup", label: "Claim Hyper Burning rewards", note: "Hold symbol selectors until each region's story is done." },
       { id: "pass", kind: "setup", label: "Lv 101: join the Challenger Pass" },
-      { id: "hypers", kind: "build", label: "Lv 140: Hyper Skills", note: "Blast Extra Strike, Blast Reinforce, Heaven's Hammer Cooldown Cutter, Extra Strike, Reinforce." },
-      { id: "inner-ability", kind: "build", label: "Inner Ability: Attack Speed +1, Boss 10%" },
+      { id: "hypers", paladin: true, kind: "build", label: "Lv 140: Hyper Skills", note: "Blast Extra Strike, Blast Reinforce; Heaven's Hammer Cooldown Cutter, Extra Strike, Reinforce." },
+      { id: "inner-ability", paladin: true, kind: "build", label: "Inner Ability: Attack Speed +1, Boss 10%, Abnormal Status 8%", note: "Roll lines 2–3 first, lock them, then line 1." },
     ],
   },
   {
@@ -108,8 +110,8 @@ export const PLAN = [
     steps: [
       { id: "hyper-blink", kind: "level", label: "Hyper Blink to 260", note: "Pop a 3x coupon first." },
       { id: "greater-power", kind: "setup", label: "5th job and \"A Greater Power\"" },
-      { id: "v-node1", kind: "build", label: "Boost Node 1 (Blast + Divine Judgment) to Lv 40" },
-      { id: "v-jobnodes", kind: "build", label: "Job nodes to Lv 25: Divine Echo, Grand Guardian, Hammers, Mjolnir" },
+      { id: "v-node1", paladin: true, kind: "build", label: "Boost Node 1 (Blast + Divine Judgment) to Lv 40" },
+      { id: "v-jobnodes", paladin: true, kind: "build", label: "Job nodes to Lv 25: Divine Echo first, then Grand Guardian, Hammers, Mjolnir" },
       { id: "tier1", kind: "clear", label: "Free bosses through Normal Lotus and Damien" },
       { id: "f-arc360", kind: "force", label: "ARC 360", unlocks: "Lucid" },
       { id: "s4-ib2", kind: "clear", label: "Easy Lucid" },
@@ -128,7 +130,7 @@ export const PLAN = [
     ordered: true,
     steps: [
       { id: "beyond-burning", kind: "level", label: "Turn on Beyond Burning" },
-      { id: "sol-janus", kind: "build", label: "Sol Janus Support on the Paladin", note: "Use Dawn. No fragments on Janus." },
+      { id: "sol-janus", kind: "build", label: "Sol Janus Support on this character", note: "Use Dawn. No fragments on Janus." },
       { id: "rank-bronze", kind: "rank", label: "Bronze, Silver", note: "Take Continuous from the Bronze ring voucher." },
       { id: "hexa-unlock", kind: "build", label: "HEXA: unlock all Masteries and boosts to Lv 1" },
       { id: "c-kai", kind: "clear", label: "Kai" },
@@ -144,7 +146,7 @@ export const PLAN = [
       { id: "c-slime-chaos", kind: "clear", label: "Chaos Slime" },
       { id: "c-gloom-test", kind: "test", label: "Chaos Gloom: from 50% in under 7.5 min" },
       { id: "c-gloom", kind: "clear", label: "Chaos Gloom" },
-      { id: "hexa-m1", kind: "build", label: "HEXA: Mastery 1 to 9, Mastery 3 to 10, Mastery 1 to 20" },
+      { id: "hexa-m1", paladin: true, kind: "build", label: "HEXA: Mastery 1 to 9, Mastery 3 to 10, Mastery 1 to 20" },
       { id: "c-kalos-path", kind: "clear", label: "Hard Verus Hilla" },
       { id: "c-darknell-test", kind: "test", label: "Hard Darknell: from 50% in under 7.5 min" },
       { id: "c-darknell", kind: "clear", label: "Hard Darknell" },
@@ -264,7 +266,7 @@ export const GEAR = [
       { id: "gx-heart", label: "Heart: Fairy (Gold) → Plasma (Diamond)" },
       { id: "gx-glove", label: "Shoes, gloves, cape: Arcane + Memento 18★ scrolls", note: "From Master." },
       { id: "gx-armor", label: "Hat, top, bottom, shoulder: Eternal 18★" },
-      { id: "gx-weapon", label: "Weapon: Genesis (two-handed blunt)", note: "Leave the Challenger weapon until then." },
+      { id: "gx-weapon", label: "Weapon: Genesis", note: "Leave the Challenger weapon until then." },
     ],
   },
   {
@@ -363,5 +365,126 @@ export const BOSSES = [
         b("b-kaling-e", "Easy Kaling", "Lv 275", "SAC 230", "9,000 pts", "Half Eternals"),
       ],
     },
+  },
+];
+
+// Paladin tab, from The Comprehensive Guide to Paladin (docs/paladin.md).
+// Build is checked once; the rest is reference (`ref: true`).
+const p = (id, label, note) => ({ id, label, note });
+export const PALADIN = [
+  {
+    id: "pal-build",
+    title: "Build",
+    ordered: true,
+    steps: [
+      p("pal-weapon", "Two-handed blunt weapon", "High Paladin adds 10% IED with a blunt; two-handed has the bigger multiplier."),
+      p("pal-as10", "Attack Speed 10", "Two-handed needs IA Attack Speed +1, Decent Speed Infusion and an Extreme Green Potion."),
+      p("pal-trinodes", "Trinodes: Blast / Divine Judgment / Divine Charge, twice", "Lead with a different skill on each."),
+      p("pal-decents", "Decent Holy Symbol, Speed Infusion, Sharp Eyes at Lv 1", "Skip a Decent the gloves already give."),
+      p("pal-utility", "One point each: Blink, Rope Lift, Erda's Will", "Erda's Will clears Black Mage curses."),
+      p("pal-artifact", "Legion Artifact: Damage, Boss, Crit Rate, then IED, Crit Damage"),
+      p("pal-ied", "IED 93–95% on screen", "Noble Demand adds 50% off screen. Past 95%, take Boss or ATT."),
+    ],
+    later: {
+      title: "Later",
+      steps: [
+        p("pal-opt-nodes", "Second trinode set: Heaven's Hammer / Final Attack / Smite Shield"),
+        p("pal-cdr-hat", "-4s cooldown hat", "Fits 2 Falling Justice per Echo. Not needed."),
+        p("pal-decents-25", "Decent Speed Infusion and Sharp Eyes to Lv 25", "+5–6 all stat once other nodes are maxed."),
+      ],
+    },
+  },
+  {
+    id: "pal-hexa",
+    title: "HEXA",
+    ref: true,
+    steps: [
+      p("ph-origin", "Origin: Sacred Bastion", "Binds unbindable bosses (Black Mage, Gloom, Kaling). Lv 10, 20, 30 add IED and Boss."),
+      p("ph-m1", "Mastery 1: Blast + Divine Judgment", "About half your damage."),
+      p("ph-m2", "Mastery 2: Divine Charge, Divine Mark, Falling Justice"),
+      p("ph-m3", "Mastery 3: Heaven's Hammer", "Its passive boosts Blast and Judgment. Cast it off cooldown once unlocked."),
+      p("ph-m4", "Mastery 4: Final Attack, Rising Justice"),
+      p("ph-boosts", "Boosts: Divine Echo, Hammers of the Righteous, Grand Guardian, Mighty Mjolnir"),
+      { id: "ph-calc", label: "Level order: Paladin HEXA calculator", note: "Copy it, fill in the Skill Tree tab, pick Sol Erda Fragment.", href: "https://docs.google.com/spreadsheets/d/1UXdvFBgog9C5pauyjYNhTcKuZ9LVOA98tHB-C9GD4UU/" },
+    ],
+  },
+  {
+    id: "pal-burst",
+    title: "Burst",
+    ref: true,
+    ordered: true,
+    intro: "Every 2 minutes. Most damage is Blast during Divine Echo. Cast Hammers of the Righteous whenever it's up, not in the sequence.",
+    steps: [
+      p("pb-vessel", "Blast to 5 Greater Vessel of Light stacks"),
+      p("pb-buffs", "Weapon Aura, Maple World Goddess's Blessing, Epic Adventurer"),
+      p("pb-echo", "Divine Echo, then Divine Blessing", "In a party, recast Blessing after Echo so it passes on."),
+      p("pb-bind", "Smite Shield (before HEXA)"),
+      p("pb-mjolnir", "Mighty Mjolnir, 3 charges"),
+      p("pb-ring", "Skill ring, Terms and Conditions"),
+      p("pb-bastion", "Sacred Bastion"),
+      p("pb-gg", "Grand Guardian, held the full 4 seconds"),
+      p("pb-bind2", "Smite Shield (after HEXA)", "Bind first on Darknell, Lotus or Damien if they'd walk out of Grand Guardian."),
+      p("pb-blast", "Blast for the rest of Echo"),
+    ],
+  },
+  {
+    id: "pal-rings",
+    title: "Skill rings",
+    ref: true,
+    intro: "120s cooldown, not cut by cooldown skip: line them up with Grand Guardian.",
+    steps: [
+      p("pr-restraint", "Restraint", "Stand still for Grand Guardian; it holds you against knockback."),
+      p("pr-continuous", "Continuous", "Wear it 120s before it works."),
+      p("pr-wj", "Weapon Jump", "Most flexible."),
+      p("pr-risk", "Risk Taker", "Only under Sacrosanctity; ends when hit."),
+    ],
+  },
+  {
+    id: "pal-survive",
+    title: "Staying alive",
+    ref: true,
+    steps: [
+      p("ps-sacro", "Sacrosanctity: 30s invincible, 5 min cooldown", "Recast to end it early: each 5s left takes 45s off the cooldown."),
+      p("ps-gg", "Grand Guardian held: half damage, no stun or knockback"),
+      p("ps-kb", "Heaven's Hammer, Rush or Impenetrable Skin block super knockback", "Lotus and Damien pushes, Will's push, Darknell's swipe, Black Mage phase 3 push."),
+      p("ps-shield", "Divine Shield eats Hard Lucid bombs, Hard Will phase 1 tests, Hard Lotus phase 3 purple balls"),
+      p("ps-blitz", "Blitz Shield tanks Darknell's Ultimate Sword Technique"),
+      p("ps-erda", "Erda's Will or Hero's Will before Black Mage curses"),
+      p("ps-comeback", "Comeback II node for long fights", "Dying cuts 30% off cooldowns, Sacrosanctity included. Hard Will, Black Mage, Seren, Kalos."),
+    ],
+  },
+  {
+    id: "pal-train",
+    title: "Training",
+    ref: true,
+    steps: [
+      p("pt-charge", "Divine Charge is the main mobbing skill"),
+      p("pt-hammers", "Hammers of the Righteous up; Mjolnir while it's down", "Let Mjolnir charges build while Hammers run."),
+      p("pt-hh", "Heaven's Hammer off cooldown"),
+      p("pt-fountain", "Erda Fountain on the far platforms"),
+      p("pt-janus", "Sol Janus: Dawn", "Training gets much easier after 6th job."),
+    ],
+  },
+  {
+    id: "pal-links",
+    title: "Link skills",
+    ref: true,
+    steps: [
+      p("pl-boss", "Bossing", "Demon Slayer, Demon Avenger, Ark, Kinesis, Explorer Thief, Explorer Mage, Cadena, Kanna, Angelic Buster, Lynn, Mo Xuan, Sia."),
+      p("pl-mob", "Training", "Mercedes, Aran, Lara, Evan, Kanna, Ark, HoYoung, Demon Avenger, Kinesis, Illium."),
+      p("pl-lumi", "Luminous only if IED is short of 93%", "Noble Demand already adds 50% off screen."),
+    ],
+  },
+  {
+    id: "pal-tools",
+    title: "Tools",
+    ref: true,
+    steps: [
+      { id: "pt-scouter", label: "MapleScouter", note: "Which bosses your stats can clear.", href: "https://maplescouter.com/" },
+      { id: "pt-ia", label: "Inner Ability cost calculator", href: "https://brendonmay.github.io/innerAbilityCalculator/" },
+      { id: "pt-video", label: "Paladin overview video (UltimateNPC)", href: "https://www.youtube.com/watch?v=q99Xr0_RPzQ" },
+      { id: "pt-discord", label: "Paladin Discord", href: "https://discord.gg/7qyGfmtRt2" },
+      { id: "pt-guide", label: "The Comprehensive Guide to Paladin", href: "https://docs.google.com/document/d/1aAQV9QGR4UywDGhQq1O3X7blXADPGDMvgDIAKfCmrH8/mobilebasic" },
+    ],
   },
 ];
