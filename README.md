@@ -17,6 +17,9 @@ A daily sheet and progression plan for MapleStory's Challenger World
   unlock full damage against), Arcane and Sacred Force thresholds, Practice
   Mode readiness tests and boss clears. Bands you aren't in fold away. Numbers
   are in `docs/bosses.md`.
+- **Character:** the build you work through over time: a tappable HEXA order,
+  burst, buffs and training sequences, 5th job nodes, stats and defenses. Plan
+  links here at the levels where each starts.
 - **Gear:** starting gear, Item Burning, then a slot-by-slot path out of it
   with when to switch, plus a farming setup (familiars, drop gear).
 - **Paladin checkbox** (header, on by default): adds Paladin rows from the

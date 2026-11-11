@@ -2,7 +2,7 @@
 // Plan (one-off progression steps). Content lives in data.js; this file only
 // renders it. Check-offs are stored locally and synced through /api/sync.
 
-import { BOSSES, EVENTS, GEAR, PLAN, SEASON, TIMELINE, TODAY } from "./data.js";
+import { BOSSES, CHARACTER, EVENTS, GEAR, PLAN, SEASON, TIMELINE, TODAY } from "./data.js";
 import { merge } from "./merge.js";
 import { countdown, nextReset, periodKey } from "./time.js";
 
@@ -52,6 +52,12 @@ function itemKey(item, now = Date.now()) {
 }
 function isDone(item, now) {
   return state.checks[itemKey(item, now)]?.done === true;
+}
+/** Set several one-off steps at once (the HEXA path), with one save. */
+function setOnce(ids, done) {
+  const at = Date.now();
+  for (const id of ids) state.checks[`${id}@once`] = { done, at };
+  commit();
 }
 function setDone(item, done) {
   state.checks[itemKey(item)] = { done, at: Date.now() };
@@ -215,7 +221,15 @@ function today(now) {
 // "level up, fill symbols, test, clear" at a glance.
 const KIND = { level: "Level", force: "Symbols", test: "Test", clear: "Clear", rank: "Rank", gear: "Gear", build: "Build", setup: "Setup" };
 
+// A pointer from Plan to where the work lives (the Character tab).
+function gotoRow(step) {
+  return h("li", { class: "row goto" },
+    h("button", { class: "goto-btn", onclick: () => { tab = step.goto; save(TAB_KEY, tab); render(); scrollTo(0, 0); } },
+      step.label, h("span", { class: "goto-tab" }, ` · ${TAB_NAMES[step.goto]} →`)));
+}
+
 function stepRow(step) {
+  if (step.goto) return gotoRow(step);
   const item = { ...step, cadence: "once" };
   const done = isDone(item);
   return h("li", { class: done ? "row done" : "row" },
@@ -258,8 +272,33 @@ function key(k) {
     h("span", { class: "key-name" }, k.name));
 }
 
+// The HEXA order as tiles in reading order. Tapping a tile marks it and
+// everything before it; tapping the last done tile steps back one.
+function pathSection(section) {
+  const steps = section.steps;
+  const done = steps.map((s) => isDone({ id: s.id, cadence: "once" }));
+  let reached = 0;
+  while (reached < steps.length && done[reached]) reached++;
+  const levels = {};
+  steps.slice(0, reached).forEach((s) => { levels[s.skill] = s.lv; });
+  const tap = (i) => {
+    const to = i === reached - 1 ? i : i + 1;
+    setOnce(steps.slice(0, to).map((s) => s.id), true);
+    if (to < steps.length) setOnce(steps.slice(to).filter((_, j) => done[to + j]).map((s) => s.id), false);
+  };
+  return h("section", { class: "card path" },
+    h("header", {}, h("h2", {}, section.title), h("span", { class: reached === steps.length ? "count all" : "count" }, `${reached}/${steps.length}`)),
+    section.intro && h("p", { class: "hint" }, section.intro),
+    h("div", { class: "now-levels", "aria-label": "Current levels" }, Object.entries(section.skills).map(([key, sk]) =>
+      h("span", { class: "now-lv", title: sk.name }, icon(sk.icon), h("b", {}, levels[key] ?? 0)))),
+    h("ol", { class: "tiles" }, steps.map((s, i) =>
+      h("li", { class: ["tile", i < reached && "done", i === reached && "next"].filter(Boolean).join(" ") },
+        h("button", { onclick: () => tap(i), title: `${s.name} to Lv ${s.lv}`, "aria-pressed": i < reached },
+          icon(s.icon), h("span", { class: "tile-name" }, s.short), h("span", { class: "tile-lv" }, `Lv ${s.lv}`))))));
+}
+
 function rotationSection(section) {
-  return h("section", { class: "card rotation" },
+  return h("section", { class: section.flow === false ? "card rotation no-flow" : "card rotation" },
     h("header", {}, h("h2", {}, section.title)),
     h("ol", { class: "phases" }, section.phases.map((p) =>
       h("li", { class: "phase" }, h("span", { class: "phase-label" }, p.label), h("span", { class: "keys" }, p.keys.map(key))))),
@@ -270,13 +309,15 @@ function rotationSection(section) {
 function planSection(section) {
   if (!forClass(section)) return null;
   if (section.view === "rotation") return rotationSection(section);
+  if (section.view === "path") return pathSection(section);
   if (section.ref) return refSection(section);
   section = { ...section, steps: section.steps.filter(forClass), later: section.later && { ...section.later, steps: section.later.steps.filter(forClass) } };
   if (section.later && !section.later.steps.length) section.later = undefined;
   if (!section.steps.length) return null;
   const lv = level();
   const current = section.levels && lv != null && lv >= section.levels[0] && lv < section.levels[1];
-  const done = section.steps.filter((s) => isDone({ ...s, cadence: "once" })).length;
+  const checkable = section.steps.filter((s) => !s.goto);
+  const done = checkable.filter((s) => isDone({ ...s, cadence: "once" })).length;
   const body = [
     section.intro && h("p", { class: "hint" }, section.intro),
     h(section.ordered ? "ol" : "ul", { class: "rows" }, section.steps.map(stepRow)),
@@ -284,15 +325,19 @@ function planSection(section) {
     section.link && h("p", { class: "section-link" }, h("a", { href: section.link.href, target: "_blank", rel: "noopener" }, section.link.label, " ↗")),
   ];
   const header = h("header", {}, h("h2", {}, section.title, current && h("span", { class: "tag now" }, "you are here")),
-    h("span", { class: done === section.steps.length ? "count all" : "count" }, `${done}/${section.steps.length}`));
+    h("span", { class: done === checkable.length ? "count all" : "count" }, `${done}/${checkable.length}`));
   // Keep the page on what matters now: bands you're not in, and finished
   // sections, fold to their header.
   const elsewhere = section.levels && lv != null && !current;
-  if (elsewhere || done === section.steps.length) {
+  if (elsewhere || done === checkable.length) {
     return h("section", { class: "card" }, h("details", { class: "fold" }, h("summary", {}, header), body));
   }
   const cls = ["card", current && "current", section.lead && "lead"].filter(Boolean).join(" ");
   return h("section", { class: cls }, header, body);
+}
+
+function character() {
+  return CHARACTER.map(planSection);
 }
 
 function plan() {
@@ -347,8 +392,10 @@ function levelInput() {
     }));
 }
 
+const TAB_NAMES = { today: "Today", plan: "Plan", character: "Character", bosses: "Bosses", gear: "Gear", events: "Events" };
+
 function tabs() {
-  const list = [["today", "Today"], ["plan", "Plan"], ["bosses", "Bosses"], ["gear", "Gear"], ["events", "Events"]];
+  const list = Object.entries(TAB_NAMES);
   return h("nav", { class: "tabs" },
     list.map(([id, label]) =>
       h("button", { class: tab === id ? "on" : "", "aria-pressed": tab === id, onclick: () => { tab = id; save(TAB_KEY, tab); render(); } }, label)),
@@ -379,7 +426,7 @@ function renderSync() {
 
 function render() {
   const now = Date.now();
-  const page = tab === "plan" ? plan() : tab === "bosses" ? bosses() : tab === "gear" ? gear() : tab === "events" ? events(now) : today(now);
+  const page = tab === "plan" ? plan() : tab === "bosses" ? bosses() : tab === "gear" ? gear() : tab === "events" ? events(now) : tab === "character" ? character() : today(now);
   brand.replaceChildren("Challenger ", h("small", {}, "Heroic"), classToggle());
   app.replaceChildren(tabs(), ...page, syncFooter());
 }
